@@ -72,7 +72,7 @@ De stappen en features van dit project zijn:
     gebruikt wordt. Als het programma een airtab registreert dan worden de
     coördinaten gelogd.
 
-    ![](./img/img5.png)
+    
 
 
     ![Afbeeldingsresultaat voor xyz](./img/img5.png)
