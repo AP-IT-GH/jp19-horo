@@ -55,7 +55,7 @@ De stappen en features van dit project zijn:
     draairichting van de cursor zodat deze op de oppervlakte ligt van het
     object.
 
-	![](./img/img12.png)
+	![](./img/img12.PNG)
 
 
 -   Daarna de implementatie van spatial mapping dit is een object voorzien door
