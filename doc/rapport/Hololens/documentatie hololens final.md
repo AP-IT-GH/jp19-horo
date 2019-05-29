@@ -24,7 +24,8 @@ in dit project:
     analyseert en omzet in input dat hij kan verwerken. Deze zijn airtab, bloom
     en gaze
 
-    ![D:\\school\\2ea4\\HORO\\doc\\mixed-reality-met-microsoft-hololens-11-638.jpg](media/3d7ba9116a30d182120839e3a690e649.jpg)
+    ![](./img/img2.png)
+)
 
 2.  Spatial mapping: Dit geeft een digitale 3D map van de omgeving. Dit geeft de
     gebruiker de vrijheid om hologrammen te laten plaatsen op echte elementen
@@ -32,7 +33,8 @@ in dit project:
     en wordt geüpdatet door de hololens en heeft een eigen coördinaten stelsel
     die ook statisch word bijgehouden.
 
-    ![](media/5539c94a01b495840e72c7f31433c663.jpg)
+    ![](./img/img3.png)
+
 
 3.  Voice Input: De hololens heeft een ingebouwd voice input lib die luistert
     via zijn micro. Als de gebruiker deze lib aanzet kan hij keywords instellen
@@ -62,16 +64,19 @@ De stappen en features van dit project zijn:
     gebruiker airTab gebruikt zal het dit herkennen en de code in het event
     uitvoeren.
 
-    ![](media/16fff27520838b4efb46b97756adce30.png)
+    ![](./img/img4.png)
+
 
 -   Nadat de gesturemanager geconfigureerd is wordt ervoor gezorgd dat de
     coördinaten kunnen worden verkregen worden van de cursor wanneer er airtab
     gebruikt wordt. Als het programma een airtab registreert dan worden de
     coördinaten gelogd.
 
-    ![](media/be2007e27743d37792379238490244ff.png)
+    ![](./img/img5.png)
 
-    ![Afbeeldingsresultaat voor xyz](media/329fd3b89755d3f0bb60404a13f865f2.jpg)
+
+    ![Afbeeldingsresultaat voor xyz](./img/img5.png)
+
 
     dit is de xyz oriëntatie van de hololens
 
@@ -106,7 +111,8 @@ meting 2: meeting van een positie na rondwandelen in de ruimte
     worden als we een percentage krijgen van de afstand tegenover de linkse
     boven hoek.
 
-![](media/3855fff6967339fa1b4b86d38a0a5e7d.png)
+![](./img/img6.png)
+
 
 -   Als het algoritme is uitgevoerd en de locatie is berekend zal deze vector
     worden doorgestuurd. De bestemming van deze vector is het hologram dat de
@@ -114,9 +120,11 @@ meting 2: meeting van een positie na rondwandelen in de ruimte
     het script van de cursor en dat van de hologram door gebruik te maken van
     delegates.
 
-    ![](media/bac7b97111058721b70c0b4a95cb600b.png)
+    ![](./img/img7.png)
 
-    ![](media/7e6ca465c7f5b781c43b413a786bf168.png)
+
+    ![](./img/img8.png)
+
 
     Als hij deze vector krijgt zal hij de positie van dit object zetten naar
     deze positie.
@@ -127,7 +135,8 @@ meting 2: meeting van een positie na rondwandelen in de ruimte
     locatie van de airtab. Ook moet de gebruiker twee keer airtab gebruiken voor
     hij uit deze configuratie modus gaat.
 
-    ![](media/258087991ca1e7d3592c3cb53b0d5760.png)
+    ![](./img/img9.png)
+
 
 -   De gebruiker heeft ook de optie om het configuratie proces opnieuw te
     starten. Dit is gedaan met een voice commando “Reset”. Hiervoor is dan ook
@@ -137,9 +146,11 @@ meting 2: meeting van een positie na rondwandelen in de ruimte
     dit gebeurt is kunnen de keyword of voice commando’s aangemaakt worden. Hier
     wordt de code dan ingevoerd die de delegate aanroept.
 
-    ![](media/47d3adf8ec80344ac10c9be8695b98c1.png)
+    ![](./img/img10.png)
 
-    ![](media/da26ecc3c3a3ce551e280e8488534b1b.png)
+
+    ![](./img/img11.png)
+
 
 -   Voor de gebruiker een makkelijk configuratie proces te geven word er een
     textfield aan de main camera gehangen. Dit textfield laat de coördinaten van
