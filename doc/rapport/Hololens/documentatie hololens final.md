@@ -98,7 +98,7 @@ De stappen en features van dit project zijn:
 
 (-1.4, -0.2, 0.5) punt 4
 
-meting 2: meeting van een positie na rondwandelen in de ruimte
+>  meting 2: meeting van een positie na rondwandelen in de ruimte
 
 (0.4, -0.7, 1.2) positie van de test meting
 
