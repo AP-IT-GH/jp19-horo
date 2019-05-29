@@ -43,7 +43,7 @@ Uiteindelijk is gekozen voor het Articulated design, dit omdat hier de meeste vo
 Voor de end effector is gekozen voor een hand van het type gripper. Dit door het beperkte budget en de mogelijkheid voor gebruik in veel omstandigheden.
 End effectors van dit type kunnen meerdere vingers hebben (de uiteinden waarmee de objecten worden vastgehouden). We hebben ervoor gekozen om gebruik te maken van 2 vingers, dit door de mogelijkheid om dan objecten van variabele groottes vast te pakken zonder extra moeilijkheden (een balk van oneven lengten oppakken met 4 vingers is moeilijker dan met 2 vingers).
 
-![Eerste_schets](./img/End effector.PNG)
+![Eerste_schets](./img/end_effector.PNG)
 
 ## De arm die wij gaan gebruiken
 We gaan voor een articulated design van de robotarm zelf. Dit komt het beste uit m.b.t. de servo-motoren (?types moeten nog opgezocht worden!) en de vele bewegingen die moeten worden uitgevoerd door de arm. 
