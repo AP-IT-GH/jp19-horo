@@ -113,7 +113,7 @@ De stappen en features van dit project zijn:
     Met deze waarden kunnen we berekenen waar dat het blokje gegenereerd zal
     worden als we een percentage krijgen van de afstand tegenover de linkse
     boven hoek.
-	![](./img/img6.png)
+    ![](./img/img6.png)
 
 
 
