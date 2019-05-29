@@ -2,6 +2,7 @@
 
 ## Summary
 Voor dit project zijn verschillende zaken en objecten die een belangrijke werking en functie hebben in het volledige plaatje van het project. In dit deel wordt uitgelegd wat de gedachtegang was omtrent de robotarm en hoe (én waarom) het is uitgewerkt op deze specifieke manier.
+
 De vereisten voor de robotarm waren dat er een reikwijdte vanuit de basis was van 0,5m (vanaf heden zal naar dit als de restricted enveloppe worden verwezen)) en dat er dan nog steeds een voorwerp van 1 kilogram kon worden opgetild en verzet worden. Voor de aandrijving van de stepper motoren werken we met een raspberry pi en een specifieke shield voor deze motoren.
 
 Allereerst is er onderzoek gedaan naar de verschillende soorten robotarmen die er bestaan, de materialen die er tot onze beschikking werden gesteld en de materialen die we eventueel zelf moesten voorzien/3D printen.
@@ -19,7 +20,7 @@ Elke component is dan nagemaakt of gedesigned in Fusion360 om op deze manier een
 
 
 ## De vereisten
-* De arm moet een reikwijdte hebben van 0,5m (straal).
+* De arm moet een restricted enveloppe hebben van 0,5m (straal), de maximum enveloppe van de robotarm kan dus wel degelijk groter zijn.
 * De arm moet een object van 1kg kunnen optillen op 0,5m afstand.
 
 ## De keuze van de arm
@@ -42,6 +43,7 @@ Uiteindelijk is gekozen voor het Articulated design, dit omdat hier de meeste vo
 Voor de end effector is gekozen voor een hand van het type gripper. Dit door het beperkte budget en de mogelijkheid voor gebruik in veel omstandigheden.
 End effectors van dit type kunnen meerdere vingers hebben (de uiteinden waarmee de objecten worden vastgehouden). We hebben ervoor gekozen om gebruik te maken van 2 vingers, dit door de mogelijkheid om dan objecten van variabele groottes vast te pakken zonder extra moeilijkheden (een balk van oneven lengten oppakken met 4 vingers is moeilijker dan met 2 vingers).
 
+![Eerste_schets](./img/End effector.PNG)
 
 ## De arm die wij gaan gebruiken
 We gaan voor een articulated design van de robotarm zelf. Dit komt het beste uit m.b.t. de servo-motoren (?types moeten nog opgezocht worden!) en de vele bewegingen die moeten worden uitgevoerd door de arm. 
