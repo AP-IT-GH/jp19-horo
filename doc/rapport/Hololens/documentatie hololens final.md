@@ -8,7 +8,7 @@ robot arm. Hierbij willen we nog een input van de user insteken. Deze input
 wordt verwerkt via een Microsoft Hololens 1 en doorgestuurd naar de robot arm om
 zo het juiste blokje op te nemen.
 
-![](media/83b10f5c9c219c4e822b426620acda8d.png)
+![](./img/img1.png)
 
 **Wat:**
 
