@@ -54,6 +54,8 @@ De stappen en features van dit project zijn:
     de locatie van de raycast intersectie. Ook regelt het script de
     draairichting van de cursor zodat deze op de oppervlakte ligt van het
     object.
+	![](./img/img12.png)
+
 
 -   Daarna de implementatie van spatial mapping dit is een object voorzien door
     microsoft met een script dat dit implementeert
@@ -110,8 +112,9 @@ meting 2: meeting van een positie na rondwandelen in de ruimte
     Met deze waarden kunnen we berekenen waar dat het blokje gegenereerd zal
     worden als we een percentage krijgen van de afstand tegenover de linkse
     boven hoek.
+	![](./img/img6.png)
 
-![](./img/img6.png)
+
 
 
 -   Als het algoritme is uitgevoerd en de locatie is berekend zal deze vector
