@@ -1,4 +1,4 @@
-**Hololens Documentatie**
+**Hololens Documentatie .net scripting**
 
 **inleiding :**
 
@@ -85,26 +85,26 @@ De stappen en features van dit project zijn:
 
     Deze code geeft een 3D vector terug. Zo zijn er een aantal metingen gedaan
     om te bepalen of dat de coördinaten zouden veranderen moest de gebruiker
-    bewegen en dan terug keren naar dezelfde locatie. Dit leek zo te zijn
+    bewegen en dan terug keren naar dezelfde locatie. Dit leek zo te zijn:
 
->   meting 1: meeting van een vlak zodat er kan bepaald worden hoe accuraat deze
->   metingen zijn
+	>   meting 1: meeting van een vlak zodat er kan bepaald worden hoe accuraat deze
+	>   metingen zijn
 
-(-0.4, -0.2, 0.8) punt 1
+	(-0.4, -0.2, 0.8) punt 1
 
-(-1.7, -0.2, 1.5) punt 2
+	(-1.7, -0.2, 1.5) punt 2
 
-(-0.8, -0.2, 1.8) punt 3
+	(-0.8, -0.2, 1.8) punt 3
 
-(-1.4, -0.2, 0.5) punt 4
+	(-1.4, -0.2, 0.5) punt 4
 
->  meting 2: meeting van een positie na rondwandelen in de ruimte
+	>  meting 2: meeting van een positie na rondwandelen in de ruimte
 
-(0.4, -0.7, 1.2) positie van de test meting
+	(0.4, -0.7, 1.2) positie van de test meting
 
-(0.1, -0.7, -3.7) meting ongeveer 3 meter weg van de test positie
+	(0.1, -0.7, -3.7) meting ongeveer 3 meter weg van de test positie
 
-(0.4, -0.7, 1.2) meting na terugkeer test positie
+	(0.4, -0.7, 1.2) meting na terugkeer test positie
 
 -   Nu dat de coördinaten beschikbaar zijn kunnen deze gebruikt worden om een
     algoritme te maken. Dit algoritme zal bepalen waar een blok gaat gezet
