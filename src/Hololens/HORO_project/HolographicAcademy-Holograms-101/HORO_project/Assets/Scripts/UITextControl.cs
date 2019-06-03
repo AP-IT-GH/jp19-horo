@@ -24,8 +24,8 @@ public class UITextControl : MonoBehaviour {
     {
 
 
-        pos.y += (float)0.2;
-        pos.x -= (float)0.1;
+        pos.y += (float)0.21;
+        pos.x -= (float)0.13;
         this.GetComponent<TextMesh>().text = "Location of detected object is "+pos;
         this.transform.position = pos;
         this.GetComponent<Renderer>().enabled = true;
