@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using M2MqttUnity.Examples;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -34,7 +35,22 @@ public class WorldCursor : MonoBehaviour {
     KeywordRecognizer keywordRecognizer = null;
     Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
 
+    public double procentX { get; set; }
+    public double procentY { get; set; }
 
+    void OnEnable()
+    {
+        M2MqttUnityTest.Message += SetXY;
+
+
+    }
+
+
+    void OnDisable()
+    {
+        M2MqttUnityTest.Message -= SetXY;
+        //unsubscribe op het event
+    }
 
     // Use this for initialization
     void Start()
@@ -43,19 +59,21 @@ public class WorldCursor : MonoBehaviour {
         meshRenderer = this.gameObject.GetComponentInChildren<MeshRenderer>();
         CountCalibration = 0;
         SetupRun = true;
+        procentX = 0.5;
+        procentY = 0.5;
 
         keywords.Add("Reset", () =>
         {
             Debug.Log("reset");
             if (ResetWorld != null)
                 ResetWorld();
-                CountCalibration = 0;
-                SetupRun = true;
+            CountCalibration = 0;
+            SetupRun = true;
 
 
         });
 
-       
+
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 
@@ -71,35 +89,38 @@ public class WorldCursor : MonoBehaviour {
         recognizer = new GestureRecognizer();
         recognizer.Tapped += (args) =>
         {
-            
-            
-            
-             if (SetupRun)
-             {
-                 CountCalibration++;
-             }
 
-             switch (CountCalibration)
-             {
-                 case 1:
-                     LeftUp= this.transform.position;
+
+
+            if (SetupRun)
+            {
+                CountCalibration++;
+            }
+
+            switch (CountCalibration)
+            {
+                case 1:
+                    LeftUp = this.transform.position;
                     
+
                     if (OnTabSetup1 != null)
                         OnTabSetup1(LeftUp);
 
                     break;
-                 case 2:
-                     RightDown = this.transform.position;
-                    
+                case 2:
+                    RightDown = this.transform.position;
+
                     if (OnTabSetup2 != null)
                         OnTabSetup2(RightDown);
+                    CountCalibration = 0;
+                    SetupRun = false;
 
-                    CalcPlane(0.861, 0.715);
-                     break;
-                 default:
-                     break;
-             }
-             
+
+                    break;
+                default:
+                    break;
+            }
+
             // Send an OnSelect message to the focused object and its ancestors.
 
 
@@ -109,16 +130,19 @@ public class WorldCursor : MonoBehaviour {
         };
         recognizer.StartCapturingGestures();
     }
-    
+
 
     // Update is called once per frame
     void Update()
     {
+        if (SetupRun == false)
+        {
+            CalcPlane(procentX, procentY);
+        }
 
-        
-            // Do a raycast into the world based on the user's
-            // head position and orientation.
-            var headPosition = Camera.main.transform.position;
+        // Do a raycast into the world based on the user's
+        // head position and orientation.
+        var headPosition = Camera.main.transform.position;
         var gazeDirection = Camera.main.transform.forward;
 
         RaycastHit hitInfo;
@@ -141,22 +165,21 @@ public class WorldCursor : MonoBehaviour {
             meshRenderer.enabled = false;
         }
     }
-    void CalcPlane(double ProcentX,double ProcentY)
+    void CalcPlane(double ProcentX, double ProcentY)
     {
-        
+
         float Lenght = RightDown.x - LeftUp.x;
-        
+
         float Height = LeftUp.z - RightDown.z;
-        
+
         Vector3 TeleportPos;
-        TeleportPos.x = (float)(Lenght * ProcentX )+LeftUp.x;
-        TeleportPos.z = (float)(LeftUp.z-(Height * ProcentY));
-        TeleportPos.y = LeftUp.y;
+        TeleportPos.x = (float)(Lenght * ProcentX) + LeftUp.x;
+        TeleportPos.z = (float)(LeftUp.z - (Height * ProcentY));
+        TeleportPos.y =(float)(LeftUp.y+0.1);
         if (OnClicked != null)
             OnClicked(TeleportPos);
-        
-        CountCalibration = 0;
-        SetupRun = false;
+
+
     }
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
@@ -166,5 +189,11 @@ public class WorldCursor : MonoBehaviour {
         {
             keywordAction.Invoke();
         }
+    }
+
+    public void SetXY(double X, double Y)
+    {
+        procentX = X;
+        procentY = Y;
     }
 }

@@ -22,7 +22,7 @@ public class Marker2control : MonoBehaviour {
 
     void Teleport(Vector3 pos)
     {
-
+        pos.y += (float)0.074;
 
 
         this.transform.position = pos;
