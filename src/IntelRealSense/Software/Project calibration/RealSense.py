@@ -16,6 +16,11 @@ except ImportError:
 # install cv2 and numpy : pip install opencv-pyhton
 # install matplotlib : python -m pip install -U matplotlib
 
+#If any errors:
+#MAKE SURE YOU ARE IN PYTHON version 2.7.16 (try python -V)
+#update pip package installer python -m pip install --user --upgrade pip
+#update import modules python -m pip install --user -U matplotlib
+
 #UI
 ################################################################################################
 class Window(Frame):
