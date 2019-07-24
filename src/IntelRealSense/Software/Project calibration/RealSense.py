@@ -389,6 +389,13 @@ try:
             cv2.resizeWindow('mask rgb',640,480)
             cv2.imshow('mask rgb',mask)
 
+            #When messuring the depth make sure to first align both frames (you can check this with the overlay cam)
+            #https://github.com/IntelRealSense/librealsense/issues/4050
+            #!!!https://community.nuitrack.com/t/example-using-realsense-d435-unity/667  20-80cm most accurate depth tracking rate!!!
+            #cv2.namedWindow('depth', cv2.WINDOW_NORMAL)
+            #cv2.resizeWindow('depth',640,480)
+            #cv2.imshow('depth',colorized_depth)
+
         cv2.waitKey(1)
         
 
