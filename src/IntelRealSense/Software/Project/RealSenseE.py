@@ -30,7 +30,7 @@ def timer():
     while True:
         if timerBool == False : 
             print "Start : %s" % time.ctime()
-            time.sleep( 15 )
+            time.sleep( 10)
             timerBool = True
             print "End : %s" % time.ctime()
 
@@ -102,13 +102,14 @@ class Window(Frame):
         root.destroy()
         print(windowSelector)
 
-windowSelector = 1
+windowSelector = 1    
 root = Tk()
 app = Window(root)
 root.wm_title("Robo CAM")
 root.config(background="#FFFFFF")
 root.geometry("320x200")
 global windowSelector
+windowSelector =6  #voor de gemakkelijkheid veranderd naar 6
 root.mainloop()
 
 contourCnt = 0      #alleen voor windowselector 5
@@ -122,7 +123,8 @@ contourCnt = 0      #alleen voor windowselector 5
 try:
     thread.start_new_thread(timer,())
     MQTT_SERVER = "192.168.0.69"
-    MQTT_PATH = "test_channel"
+    MQTT_ROBOT = "robotarm"
+    MQTT_HOLO = "hololens"
     # Create a context object. This object owns the handles to all connected realsense devices
     pipeline = rs.pipeline()
     pipeline.start()
@@ -337,9 +339,9 @@ try:
             
             #CREATE DEAD ZONE (MASK) -> robot arm word hierdoor niet gedetecteerd
             robotWidth = 250 
-            robotHeight = 800 
+            robotHeight = 600 
             xRobot = 500 - (robotWidth/2)
-            yRobot = 500 - (robotHeight/2)
+            yRobot = 650 - (robotHeight/2)
             xRobotWidth = xRobot + robotWidth
             yRobotHeight = yRobot + robotHeight
 
@@ -356,55 +358,147 @@ try:
             cv2.drawContours(crop_img, contours, -1, (0,255,0), 3)              
             #cv2.drawContours(crop_img, contours, contourCnt, (0,255,0), 3)     #all contours
 
-            contours = sorted(contours, key = cv2.contourArea, reverse = True)[:1] # get largest 5 contour area
+            contours = sorted(contours, key = cv2.contourArea, reverse = True)[:1] # get the largest contour area
+            (xc,yc),radius = cv2.minEnclosingCircle(contours[0])
+            center = (int(xc),int(yc))
+            radius = int(radius)
+            cv2.circle(crop_img,center,radius,(0,255,0),2)
+            print "center: " + str(center)
             rects = []
             for c in contours:
                 peri = cv2.arcLength(c, True)
                 approx = cv2.approxPolyDP(c, 0.02 * peri, True)
                 x, y, w, h = cv2.boundingRect(approx)
-                if h >= 15:
-                    # if height is enough
-                    # create rectangle for bounding
-                    rect = (x, y, w, h)
-                    rects.append(rect)
-                    cv2.rectangle(crop_img, (x, y), (x+w, y+h), (0, 0,255), 4);   
 
-                    rect = cv2.minAreaRect(c)
-                    box = cv2.boxPoints(rect)
-                    box = np.int0(box)
-                    cv2.drawContours(crop_img,[box],0,(255,0,0),4)
+                # if height is enough
+                # create rectangle for bounding
+                rect = (x, y, w, h)
+                rects.append(rect)
+                cv2.rectangle(crop_img, (x, y), (x+w, y+h), (0, 0,255), 4);   
+
+                rect = cv2.minAreaRect(c)
+                box = cv2.boxPoints(rect)
+                box = np.int0(box)
+                cv2.drawContours(crop_img,[box],0,(255,0,0),4)
+                
+                x_waarde = (x + (w/2))
+                y_waarde = (y + (h/2))
+
+                #print("----------------------------------")
+                #print("x center" + str(x_waarde))
+                #print("y center" + str(y_waarde))
+
+                #print("----------------------------------")
+                #print("blauwe coordinaten")
+                #print(box * expected)
                     
-                    x_waarde = (x + (w/2))*expected
-                    y_waarde = (y - (h/2))*expected
+            if timerBool: 
+                x_tussenwaarde = int(x_waarde/expected)
 
-                    #print("----------------------------------")
-                    #print("x center" + str(x_waarde))
-                    #print("y center" + str(y_waarde))
-
-                    #print("----------------------------------")
-                    #print("blauwe coordinaten")
-                    #print(box * expected)
-            if timerBool:
-                print("huppa")
-                x_robot = (int(x_waarde/1000)-500)
-                y_robot = (int(y_waarde/1000)-350)
+                #Q1
+                if int(xc) <500 and int(yc)< 500:
+                    print "Q1"
+                    #x waardes
+                    if int(yc) < 200:
+                        if int (xc) < 100:
+                            x_robot = (int(xc) - 670)
+                        elif int(xc) >= 100 and int(xc) <200:
+                            x_robot = (int(xc)-500)
+                        elif int(xc) >= 200 and int(xc) < 300:
+                            x_robot = (int(xc)-500)
+                        elif int(xc) >= 300 and int(xc) < 400:
+                            x_robot = (int(xc) - 450)
+                        else:
+                            x_robot = (int(xc) - 450)
+                        y_robot = (int(yc) - 500)
+                    else:
+                        if int (xc) < 100:
+                            x_robot = (int(xc) - 670)
+                        elif int(xc) >= 100 and int(xc) <200:
+                            x_robot = (int(xc)-600)
+                        elif int(xc) >= 200 and int(xc) < 300:
+                            x_robot = (int(xc)-550)
+                        elif int(xc) >= 300 and int(xc) < 400:
+                            x_robot = (int(xc) - 450)
+                        else:
+                            x_robot = (int(xc) - 450)
+                        y_robot = (int(yc) - 550)
+                    #y waardes
+                    
+                #Q2
+                elif int(xc) >= 500 and int(yc) < 500:
+                    print "Q2"
+                    #x waardes
+                    if int(xc) < 600:
+                        x_robot =(int(xc)-450)
+                        y_robot = (int(yc)-550)
+                    elif int (xc) >=600 and int(xc) < 700 :
+                        x_robot = (int(xc) - 400)
+                        y_robot = (int(yc)-550)
+                    elif int(xc) >=700 and int(xc) < 800:
+                        x_robot = (int(xc)-350)
+                        y_robot = (int(yc)-550)
+                    else:
+                        x_robot = (int(xc)-300)
+                        y_robot = (int(yc)-450)
+                   
+                #Q3
+                elif int(xc) >= 500 and int(yc) >= 500:
+                    print "Q3"
+                    #x waardes
+                    if int (xc) >=600 and int(xc) < 700 :
+                        x_robot = (int(xc) - 450)
+                        y_robot = (int(yc)-400)
+                    elif int(xc) >=700 and int(xc) < 750:
+                        x_robot = (int(xc)-400)
+                        y_robot = (int(yc)-350)
+                    elif int(xc) >=750 and int(xc) < 800:
+                        x_robot = (int(xc)-350)
+                        y_robot = (int(yc)-350)
+                    else:
+                        x_robot = (int(xc)-300)
+                        y_robot = (int(yc)-400)
+                   
+                #Q4
+                else:
+                    print " Q4"
+                    if int (xc) < 100:
+                        x_robot = (int(xc) - 670)
+                    elif int(xc) >= 100 and int(xc) <200:
+                        x_robot = (int(xc)-670)
+                    elif int(xc) >= 200 and int(xc) < 300:
+                        x_robot = (int(xc)-650)
+                    elif int(xc) >= 300 and int(xc) < 400:
+                        x_robot = (int(xc) - 550)
+                    else:
+                        x_robot = (int(xc) - 500)
+                    y_robot = (int(yc)-500)
                 msg = {"x" : x_robot, "y" : y_robot, "z" : 50}
                 print(json.dumps(msg, sort_keys=True, indent=4))
-                publish.single(MQTT_PATH,payload=json.dumps(msg),hostname=MQTT_SERVER)
+                publish.single(MQTT_ROBOT,payload=json.dumps(msg),hostname=MQTT_SERVER)
                 timerBool = False
-                
 
+                #print("----------------------------------")
+                #print("x center" + str(((x + (w/2))*expected)/1000) + "mm " + str(((x + (w/2))*expected)/10000000*expected) + "%")
+                #print("y center" + str(((y + (h/2))*expected)/1000) + "mm " + str(((y + (h/2))*expected)/10000000*expected) + "%")
+                #print("----------------------------------")
+                
+                
+                
+            kommaX = ((x + (w/2))*expected)/1000000000*expected
+            kommaY = ((y + (h/2))*expected)/1000000000*expected
+            publish.single(MQTT_HOLO,payload = str(kommaX) + ","+str(kommaY),hostname = MQTT_SERVER)
             cv2.namedWindow('RealSense5', cv2.WINDOW_NORMAL)
             cv2.resizeWindow('RealSense5',640,480)
             cv2.imshow('RealSense5',cv2.cvtColor(crop_img, cv2.COLOR_BGR2RGB))
 
-            cv2.namedWindow('thresh grey', cv2.WINDOW_NORMAL)
-            cv2.resizeWindow('thresh grey',640,480)
-            cv2.imshow('thresh grey',thresh)
+            #cv2.namedWindow('thresh grey', cv2.WINDOW_NORMAL)
+            #cv2.resizeWindow('thresh grey',640,480)
+            #cv2.imshow('thresh grey',thresh)
 
-            cv2.namedWindow('mask rgb', cv2.WINDOW_NORMAL)
-            cv2.resizeWindow('mask rgb',640,480)
-            cv2.imshow('mask rgb',mask)
+            #cv2.namedWindow('mask rgb', cv2.WINDOW_NORMAL)
+            #cv2.resizeWindow('mask rgb',640,480)
+            #cv2.imshow('mask rgb',mask)
 
         cv2.waitKey(1)
         
