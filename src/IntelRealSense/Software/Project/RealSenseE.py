@@ -46,11 +46,13 @@ try:
     pipeline.start()
     profile = pipeline.get_active_profile()
 
-    depth_sensor = profile.get_device().first_depth_sensor()
-    depth_scale = depth_sensor.get_depth_scale()
-    print ("scale is : ",depth_scale)
+    ##depth_sensor = profile.get_device().first_depth_sensor()
+    ##depth_scale = depth_sensor.get_depth_scale()
+    ##print ("scale is : ",depth_scale)
 
     while True:
+
+        global timerBool
         
         # This call waits until a new coherent set of frames is available on a device
         # Calls to get_frame_data(...) and get_frame_timestamp(...) on a device will return stable values until wait_for_frames(...) is called
@@ -60,62 +62,55 @@ try:
         if not depth_frame or not color_frame:
             continue
         
-        color = np.asanyarray(color_frame.get_data())
-        plt.rcParams["axes.grid"] = False
-        #plt.rcParams['figure.figsize'] = [12, 6]
-        plt.rcParams['figure.figsize'] = [9, 6]     #figure(figsize=(1,1)) would create an inch-by-inch image, which would be 80-by-80 pixels unless you also give a different dpi argument.
 
+        color = np.asanyarray(color_frame.get_data())
+
+        ##no clue wat dit doet?? Michiel
+        ##plt.rcParams["axes.grid"] = False
+        ##plt.rcParams['figure.figsize'] = [12, 6]
+        ##plt.rcParams['figure.figsize'] = [9, 6]     #figure(figsize=(1,1)) would create an inch-by-inch image, which would be 80-by-80 pixels unless you also give a different dpi argument.
+
+        #dit is enkel nodig voor de diepte.
         colorizer = rs.colorizer()
 
         # Create alignment primitive with color as its target stream:
         align = rs.align(rs.stream.color)
         frameset = align.process(frames)
 
-        # Update color and depth frames:
         aligned_depth_frame = frameset.get_depth_frame().as_depth_frame()
-        #scale to frame of the color view
-        colorized_depth = np.asanyarray(colorizer.colorize(aligned_depth_frame).get_data()) 
         try_depth = aligned_depth_frame.get_distance(0,0)
+
+        #scale to frame of the color view
+        #colorized_depth = np.asanyarray(colorizer.colorize(aligned_depth_frame).get_data()) 
+        
         #print (try_depth)
-        depth = colorized_depth[0,0].astype(float)
+        #depth = colorized_depth[0,0].astype(float)
         #print (depth)
         #distance = depth * depth_scale
 
-       # print ("distance is:" , distance)
-
-        # Show the two frames together: gewoon en depth naast elkaar
-        images = np.hstack((color, colorized_depth))
+        # print ("distance is:" , distance)
         
         # Standard OpenCV boilerplate for running the net:
         
         height, width = color.shape[:2]
-        #expected = 300.0 #spelen met dit om tot de nauwkeurigste meting te gaan. 
         expected = 1000.0 #vermoedlijk is dit gelijk aan de breedte van de frame     
         aspect = width / height
-        #print(height,expected)
         scale = int(math.ceil(height / expected))
        
-
         resized_image = cv2.resize(color, (int(round(expected * aspect)),int( expected)))
         crop_start = round(expected * (aspect - 1) / 2)
         crop_img = resized_image[0:int(expected), int(crop_start):int(crop_start+expected)]
-            
-        inScaleFactor = 0.007843
-        meanVal       = 127.53
-        
-        global timerBool
 
-        blurred_frame = cv2.GaussianBlur(crop_img, (5, 5), 0) #removes noise
+        ##blurred_frame = cv2.GaussianBlur(crop_img, (5, 5), 0) #removes noise
 
         lower_red = np.array([0,0,0])           #houd de waarde tussen zwart
         upper_red = np.array([100,100,100])     #en bijna wit
-
         mask = cv2.inRange(crop_img, lower_red, upper_red)
-        res = cv2.bitwise_and(crop_img,crop_img, mask= mask)
+
+        ##res = cv2.bitwise_and(crop_img,crop_img, mask= mask)
         
         #CREATE DEAD ZONE (MASK) -> robot arm word hierdoor niet gedetecteerd
-        
-       # robotWidth = 250 
+        #robotWidth = 250 
         #robotHeight = 600 
         #xRobot = 500 - (robotWidth/2)
         #yRobot = 650 - (robotHeight/2)
@@ -127,10 +122,13 @@ try:
         #https://docs.opencv.org/3.3.1/d4/d73/tutorial_py_contours_begin.html
         #https://www.youtube.com/watch?v=_aTC-Rc4Io0
 
-        imgray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
-        ret, thresh = cv2.threshold(imgray, 127, 255, 0)
 
-        contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  #thresh gebruikt een waarde uit de grayscale en mask gebruikt een kleur grens uit de rgb scale
+        ##imgray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
+        ##ret, thresh = cv2.threshold(imgray, 127, 255, 0)
+
+        #thresh gebruikt een waarde uit de grayscale en mask gebruikt een kleur grens uit de rgb scale
+        #probeer hier eens RETR_EXTERNAL dit gaat enkel de uiterste contours weergeven.
+        contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  
 
         cv2.drawContours(crop_img, contours, -1, (0,255,0), 3)              
         #cv2.drawContours(crop_img, contours, contourCnt, (0,255,0), 3)     #all contours

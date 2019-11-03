@@ -54,3 +54,76 @@ In de voorbeeld toepassing heb ik bij het opstarten een menuutje gemaakt (met de
 
 **Contour detection** *(zeer performante optie voor gecontroleerde omgeving)*:
 In het menu vindt men ook een knop die enkel de mask weergeeft en uitvoert. Vervolgens is er ook een voorbeeld dat de contouren op de RGB stream tekent (door middel van de mask). En de laatste knop tekent uiteindelijk een rechthoek en een gekantelde rechthoek rond het object (en logt de x en y coördinaten in de console).
+
+# Uitleg van de code
+
+Voor we kunnen beginnen met programmeren moeten we eerst zorgen dat we de sdk hebben geinstalleerd van de realsense.
+
+```python
+    import cv2
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import pyrealsense2 as rs
+    import math
+```
+Voor we beginnen met onze code moeten we eerst alle libraries importen die we nodig hebben voor het project.
+
+1. We moeten beginnen een pipeline aan te maken die alle handelingen van de geconnecteerde realsense aparaten gaat bijhouden.
+
+```python
+    pipeline = rs.pipeline()
+    pipeline.start()
+    profile = pipeline.get_active_profile()
+```
+2. Als de pipeline gelukt is, kunnen we beginnen met het opvragen van de frames. Als we de frames hebben kunnen hieruit de diepte en color frames gehaald worden.
+
+```python
+    frames = pipeline.wait_for_frames()
+    depth_frame = frames.get_depth_frame()
+    color_frame = frames.get_color_frame()
+    if not depth_frame or not color_frame:
+            continue
+```
+Deze call wacht tot er een nieuwe samenhangende set van frames toegankelijk zijn op een apparaat. Als de diepte of color frames niet zijn aangekomen op tijd zal het programma nog steeds runnen door de continue in de if.
+
+We gaan nu eerst verder met de kleuren frames en de contour detectie voor we naar de diepte gaan.
+
+3. We gaan gebruik maken van de numpy bibliotheek om de de data van de kleuren frame bij te houden, hiermee kunnen we laten dan bewerkingen mee gaan doen.
+
+```python
+    color = np.asanyarray(color_frame.get_data())
+```
+
+4. Uit de array die we in de vorige stap hebben aangemaakt kunnen we nu hoogte en de breedte halen. In deze stap gaan we ook de waardes instellen van de expected en de scale.
+
+```python
+    height, width = color.shape[:2]
+    expected = 1000.0 #vermoedlijk is dit gelijk aan de breedte van de frame     
+    aspect = width / height
+    scale = int(math.ceil(height / expected))
+```
+
+5. Nu we de waardes hebben ingesteld die we nodig hebben kunnen we img maken die we willen weergeven in het venster met de grootte dat we willen hebben. dit doen we met de resize functie die van de array die we gemaakt hebben in stap 3. We gaan de image die we gaan gebruiken voor contour herkenning opslagen in de crop_img variablen
+
+```python
+    resized_image = cv2.resize(color, (int(round(expected * aspect)),int( expected)))
+    crop_start = round(expected * (aspect - 1) / 2)
+    crop_img = resized_image[0:int(expected), int(crop_start):int(crop_start+expected)]
+```
+
+6. Voor de contour detectie beter te laten gaan maken we gebruik van een mask. Omdat onze plaat die we gebruiken als ondergrond wit is, gaan we enkel kijken naar de objecten die de kleur hebben van zwart naar bijna wit.
+
+```python
+    lower_red = np.array([0,0,0])           #houd de waarde tussen zwart
+    upper_red = np.array([100,100,100])     #en bijna wit
+    mask = cv2.inRange(crop_img, lower_red, upper_red)
+```
+
+7. Nu we dit allemaal hebben kunnen we de contouren gaan detecteren. Hier is een functie voor in de opencv bibliotheek, deze is findContours
+Deze heeft drie parameters: de eerste is de mask die meegeven moet worden welke kleuren er moeten gevonden worden, de tweede parameter is voor de hierarchy( hiermee wordt er bedoeld welke contouren er worden gedecteerd enkel de uiterste met de hoogste hierarchy of allemaal dus ook contouren in contouren, het perfecte is RERT_TREE dit detecteerd alles en maakt een volledige hierarchy), de derde en laatste parameten is voor het opslagen van de punten ( je hebt twee keuzes none: hier worden alle punten opgeslagen, dit neemt veel plaats in beslag en Simple: hierbij worden enkel de hoekpunten opgeslagen en wordt er nadien tussen deze hoekpunten een lijn getrokken)
+
+```python
+    contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+```
+Als we gaan kijken naar wat de functie teruggeeft, zien we dat het twee parameters teruggeeft. Contours hierin zit een array met de hoekpunten van de contours en hierarchy zit de hierarchy in dat je juist over gelezen hebt.
+
