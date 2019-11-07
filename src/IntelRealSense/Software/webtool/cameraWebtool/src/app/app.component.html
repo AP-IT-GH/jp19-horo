@@ -1,0 +1,23 @@
+<body>
+    <div class="grid-container">
+        <div class="camerastream">
+          <div class="camera">camera stream</div>
+          <div style="text-align: right;">cursor: 50X 120Y</div>
+        </div>
+        <div class="rightPanel">
+            <div class="grid-container2">
+                <button id="editorButton" class="editorButton" (click)="propState(true)">EDITOR</button>
+                <button id="detectedButton" class="detectedButton" (click)="propState(false)">DETECTED</button>
+                <div class="properties">
+                  <div class="editor"></div>
+                  <div class="detected" style="visibility:hidden"></div>
+                </div>
+              </div>
+        </div>
+        <div class="bottomPannel">
+          <div class="detection">
+            <div style="font-weight: bold; margin-left: 25px; padding-top: 25px; font-size: 28px;">Detection</div>
+          </div>
+        </div>
+    </div>
+</body>
