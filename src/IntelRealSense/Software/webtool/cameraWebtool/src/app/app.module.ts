@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import {WebcamModule} from 'ngx-webcam'
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import {WebcamModule} from 'ngx-webcam'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    WebcamModule
+    WebcamModule,
+    ColorPickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

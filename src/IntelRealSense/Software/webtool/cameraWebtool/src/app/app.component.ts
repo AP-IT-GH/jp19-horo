@@ -8,6 +8,14 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'cameraWebtool';
 
+  protected primaryColor: string;
+  protected secondaryColor: string;
+
+  constructor(){
+    this.primaryColor = "#ffffff";
+    this.secondaryColor = "#9f9f9f";
+  }
+
   propState(propState : boolean){
     console.log("editor function is clicked");
     console.log(propState)

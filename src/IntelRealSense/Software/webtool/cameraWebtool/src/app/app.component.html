@@ -33,6 +33,8 @@
                 <option value="colorKey">Color key</option>
                 <option value="depth">By depth</option>
               </select>
+              <input [style.background]="color" [colorPicker]="color" (colorPickerChange)="color=$event"/>
+              <input [style.background]="color" [colorPicker]="color" (colorPickerChange)="color=$event"/>
               <h2>Width of detection area</h2>
               <input>
               <h2>Height of detection area</h2>
