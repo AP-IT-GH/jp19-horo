@@ -106,3 +106,7 @@ body{
     border-style: none;
     border-radius: 10px;
 }
+
+.sansSerif{
+    font-family: sans-serif;
+}
