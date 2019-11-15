@@ -2,7 +2,7 @@
     <div class="grid-container">
         <div class="camerastream">
           <div class="camera">
-            <webcam></webcam>
+              <webcam></webcam>
           </div>
           <div style="text-align: right;">cursor: 50X 120Y</div>
 
@@ -26,8 +26,8 @@
                 <option value="colorKey">Color key</option>
                 <option value="depth">By depth</option>
               </select>
-              <input [style.background]="color" [colorPicker]="color" (colorPickerChange)="color=$event"/>
-              <input [style.background]="color" [colorPicker]="color" (colorPickerChange)="color=$event"/>
+              <input [style.background]="primaryColor" [colorPicker]="primaryColor" (colorPickerChange)="primaryColor=$event"/>
+              <input [style.background]="secondaryColor" [colorPicker]="secondaryColor" (colorPickerChange)="secondaryColor=$event"/>
               <h2>Width of detection area</h2>
               <input>
               <h2>Height of detection area</h2>
