@@ -1,7 +1,12 @@
+<!--Camera import information-->
+<!--https://www.npmjs.com/package/ngx-webcam-->
+
 <body>
     <div class="grid-container">
         <div class="camerastream">
-          <div class="camera">camera stream</div>
+          <div class="camera">
+            <webcam></webcam>
+          </div>
           <div style="text-align: right;">cursor: 50X 120Y</div>
         </div>
         <div class="rightPanel">
@@ -9,14 +14,30 @@
                 <button id="editorButton" class="editorButton" (click)="propState(true)">EDITOR</button>
                 <button id="detectedButton" class="detectedButton" (click)="propState(false)">DETECTED</button>
                 <div class="properties">
-                  <div class="editor"></div>
-                  <div class="detected" style="visibility:hidden"></div>
+                  <div class="editor" id="editor">
+                    <div class="editorButtonContainer">
+                      <button class="saveMaskButton">SAVE MASKS</button>
+                      <button class="importMasksButton">IMPORT MASKS</button>
+                    </div>
+                  </div>
+                  <div class="detected" style="visibility:hidden" id="detected"></div>
                 </div>
               </div>
         </div>
         <div class="bottomPannel">
           <div class="detection">
-            <div style="font-weight: bold; margin-left: 25px; padding-top: 25px; font-size: 28px;">Detection</div>
+            <div style="font-weight: bold; margin-left: 25px; padding-top: 25px; font-size: 28px; font-family: sans-serif;">Detection</div>
+            <div class="detection" style="margin-left: 25px; margin-top: 25px;">
+              <h2>colorKey</h2>
+              <select>
+                <option value="colorKey">Color key</option>
+                <option value="depth">By depth</option>
+              </select>
+              <h2>Width of detection area</h2>
+              <input>
+              <h2>Height of detection area</h2>
+              <input>
+            </div>
           </div>
         </div>
     </div>
