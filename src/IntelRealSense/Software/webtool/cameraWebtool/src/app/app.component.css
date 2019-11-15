@@ -19,9 +19,9 @@ body{
 
 .camera{
     background: dimgray;
-    width: 95%; /*Width still has to change!!*/
+    width: 100%;
     height: 65vh;
-    margin: 10px;
+
 }
 
 .detection{
@@ -72,37 +72,8 @@ body{
 }
 
 .editor{
-    display: flex;
-
 }
 
 .detected{
-}
 
-.editorButtonContainer{
-    margin-top: 20px;
-    width: 50vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
-.saveMaskButton{
-    width: 150px;
-    height: 60px;
-    background-color: #2680EB;
-    color: white;
-    font-weight: bold;
-    border-style: none;
-    border-radius: 10px;
-}
-
-.importMasksButton{
-    width: 150px;
-    height: 60px;
-    background-color: #2680EB;
-    color: white;
-    font-weight: bold;
-    border-style: none;
-    border-radius: 10px;
 }
