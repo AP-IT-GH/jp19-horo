@@ -8,22 +8,18 @@
     <div class="grid-container">
         <div class="camerastream">
           <div class="camera">
-            <webcam></webcam>
+              <webcam></webcam>
           </div>
           <div style="text-align: right;">cursor: 50X 120Y</div>
+
         </div>
         <div class="rightPanel">
             <div class="grid-container2">
                 <button id="editorButton" class="editorButton" (click)="propState(true)">EDITOR</button>
                 <button id="detectedButton" class="detectedButton" (click)="propState(false)">DETECTED</button>
                 <div class="properties">
-                  <div class="editor" id="editor">
-                    <div class="editorButtonContainer">
-                      <button class="saveMaskButton">SAVE MASKS</button>
-                      <button class="importMasksButton">IMPORT MASKS</button>
-                    </div>
-                  </div>
-                  <div class="detected" style="visibility:hidden" id="detected"></div>
+                  <div class="editor"></div>
+                  <div class="detected" style="visibility:hidden"></div>
                 </div>
               </div>
         </div>
