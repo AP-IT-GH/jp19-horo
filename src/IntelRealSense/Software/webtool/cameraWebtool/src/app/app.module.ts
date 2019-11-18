@@ -7,6 +7,7 @@ import { ColorpickerComponent } from './colorpicker/colorpicker.component';
 
 import {WebcamModule} from 'ngx-webcam';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { NgxMqttClientModule } from 'ngx-mqtt-client';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,14 @@ import { ColorPickerModule } from 'ngx-color-picker';
     BrowserModule,
     AppRoutingModule,
     WebcamModule,
-    ColorPickerModule
+    ColorPickerModule,
+    NgxMqttClientModule.withOptions({
+      manageConnectionManually: true, // this flag will prevent the service to connection automatically
+      host: 'broker.hivemq.com',
+      protocol: 'ws',
+      port: 8000,
+      path: '/mqtt'
+  })
   ],
   providers: [],
   bootstrap: [AppComponent]
