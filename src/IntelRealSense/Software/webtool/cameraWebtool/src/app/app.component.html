@@ -8,9 +8,9 @@
     <div class="grid-container">
         <div class="camerastream">
           <div class="camera">
-              <webcam></webcam>
+              <webcam id="field" (onmousemove)="onmousemove($event)"></webcam>
           </div>
-          <div style="text-align: right;">cursor: 50X 120Y</div>
+          <div style="text-align: right;">cursor: X:{{cursorXCalculated}}m Y:{{cursorYCalculated}}m</div>
 
         </div>
         <div class="rightPanel">
@@ -35,9 +35,9 @@
               <input class="colorPicker" [style.background]="primaryColor" [colorPicker]="primaryColor" (colorPickerChange)="primaryColor=$event"/>
               <input class="colorPicker" [style.background]="secondaryColor" [colorPicker]="secondaryColor" (colorPickerChange)="secondaryColor=$event"/>
               <h2 class="sansSerif">Width of detection area</h2>
-              <input class="sizeInput">
+              <input class="sizeInput" [(ngModel)]="widthDetectionAreaNumber" value="{{widthDetectionArea}}" onClick="this.setSelectionRange(0, this.value.length)">
               <h2 class="sansSerif">Height of detection area</h2>
-              <input class="sizeInput">
+              <input class="sizeInput" [(ngModel)]="heightDetectionAreaNumber" value="{{heightDetectionArea}}" onClick="this.setSelectionRange(0, this.value.length)">
             </div>
           </div>
         </div>

@@ -88,8 +88,12 @@ body{
     border-radius: 100%;
     border-style: none;
     cursor: pointer;
+    outline: none;
 }
 
 .sizeInput{
-    
+    -webkit-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
 }
