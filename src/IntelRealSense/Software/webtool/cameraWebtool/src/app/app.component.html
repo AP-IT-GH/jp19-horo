@@ -1,0 +1,45 @@
+<!--Camera import information-->
+<!--https://www.npmjs.com/package/ngx-webcam-->
+
+<!--npm install --save ngx-webcam-->
+<!--npm install ngx-color-picker --save-->
+
+<body>
+    <div class="grid-container">
+        <div class="camerastream">
+          <div class="camera">
+              <webcam></webcam>
+          </div>
+          <div style="text-align: right;">cursor: 50X 120Y</div>
+
+        </div>
+        <div class="rightPanel">
+            <div class="grid-container2">
+                <button id="editorButton" class="editorButton" (click)="propState(true)">EDITOR</button>
+                <button id="detectedButton" class="detectedButton" (click)="propState(false)">DETECTED</button>
+                <div class="properties">
+                  <div class="editor"></div>
+                  <div class="detected" style="visibility:hidden"></div>
+                </div>
+              </div>
+        </div>
+        <div class="bottomPannel">
+          <div class="detection">
+            <div style="font-weight: bold; margin-left: 25px; padding-top: 25px; font-size: 28px; font-family: sans-serif;">Detection</div>
+            <div class="detectionContainer" style="margin-left: 25px; margin-top: 25px; display: flex; flex-direction: row; justify-content: baseline; ">
+              <h2 class="sansSerif">Type</h2>
+              <select>
+                <option value="colorKey">Color key</option>
+                <option value="depth">By depth</option>
+              </select>
+              <input class="colorPicker" [style.background]="primaryColor" [colorPicker]="primaryColor" (colorPickerChange)="primaryColor=$event"/>
+              <input class="colorPicker" [style.background]="secondaryColor" [colorPicker]="secondaryColor" (colorPickerChange)="secondaryColor=$event"/>
+              <h2 class="sansSerif">Width of detection area</h2>
+              <input class="sizeInput">
+              <h2 class="sansSerif">Height of detection area</h2>
+              <input class="sizeInput">
+            </div>
+          </div>
+        </div>
+    </div>
+</body>
