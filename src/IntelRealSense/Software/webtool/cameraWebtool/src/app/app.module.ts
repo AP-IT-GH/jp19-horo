@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +9,14 @@ import { ColorpickerComponent } from './colorpicker/colorpicker.component';
 import {WebcamModule} from 'ngx-webcam';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxMqttClientModule } from 'ngx-mqtt-client';
+import { MqttModule, IMqttServiceOptions } from 'ngx-mqtt';
+
+
+export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: 'broker.mqttdashboard.com',
+  port: 8000,
+  path: '/mqtt'
+};
 
 @NgModule({
   declarations: [
@@ -19,13 +28,15 @@ import { NgxMqttClientModule } from 'ngx-mqtt-client';
     AppRoutingModule,
     WebcamModule,
     ColorPickerModule,
-    NgxMqttClientModule.withOptions({
-      manageConnectionManually: true, // this flag will prevent the service to connection automatically
-      host: 'broker.hivemq.com',
-      protocol: 'ws',
-      port: 8000,
-      path: '/mqtt'
-  })
+    FormsModule,
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+  //   NgxMqttClientModule.withOptions({
+  //     // manageConnectionManually: true, //this flag will prevent the service to connection automatically
+  //     host: 'broker.mqttdashboard.com',
+  //     protocol: 'ws',
+  //     port: 8000,
+  //     path: '/mqtt'
+  // })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -34,6 +34,28 @@
               <input>
             </div>
           </div>
+          <table>
+            <tr>
+                <td>Topic: </td>
+                <td><input type="text" placeholder="topicname" name="topicname" [(ngModel)]="topicname"/></td>
+                <td><button type="button" (click)="subscribeNewTopic()">Subscribe Topic</button></td>
+            </tr>
+            <tr>
+                <td>Message: </td>
+                <td><input [(ngModel)]="msg" type="text" /></td>
+                <td><button type="button" (click)="sendmsg()">Send</button></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>&nbsp;&nbsp;<button type="button" (click)="clear()">Clear Log</button></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>&nbsp;&nbsp;<button type="button" (click)="GetMessages()">Refresh messages</button></td>
+                <td></td>
+            </tr>
+        </table>
         </div>
     </div>
 </body>
