@@ -28,12 +28,6 @@ def timer():
             time.sleep( 10)
             timerBool = True
             print "End : %s" % time.ctime()
-
-#White balance
-####################################################################################################
-
-#video stream
-####################################################################################################
 try:
     thread.start_new_thread(timer,())
     MQTT_SERVER = "192.168.0.69"
@@ -46,12 +40,13 @@ try:
     pipeline.start()
     profile = pipeline.get_active_profile()
 
-    ##depth_sensor = profile.get_device().first_depth_sensor()
-    ##depth_scale = depth_sensor.get_depth_scale()
-    ##print ("scale is : ",depth_scale)
+    first_time = 0
+
+    global first_time
+    depthRef = 0
+    
 
     while True:
-
         global timerBool
         
         # This call waits until a new coherent set of frames is available on a device
@@ -64,31 +59,39 @@ try:
         
 
         color = np.asanyarray(color_frame.get_data())
-
-        ##no clue wat dit doet?? Michiel
-        ##plt.rcParams["axes.grid"] = False
-        ##plt.rcParams['figure.figsize'] = [12, 6]
-        ##plt.rcParams['figure.figsize'] = [9, 6]     #figure(figsize=(1,1)) would create an inch-by-inch image, which would be 80-by-80 pixels unless you also give a different dpi argument.
-
         #dit is enkel nodig voor de diepte.
-        colorizer = rs.colorizer()
+        
+        ##colorizer = rs.colorizer()
 
         # Create alignment primitive with color as its target stream:
+        #try_depth = aligned_depth_frame.get_distance(0,0)
+
+
         align = rs.align(rs.stream.color)
         frameset = align.process(frames)
-
-        aligned_depth_frame = frameset.get_depth_frame().as_depth_frame()
-        try_depth = aligned_depth_frame.get_distance(0,0)
-
-        #scale to frame of the color view
-        #colorized_depth = np.asanyarray(colorizer.colorize(aligned_depth_frame).get_data()) 
+        #Algin komt niet uit
+        aligned_depth_frame = frameset.get_depth_frame()
         
-        #print (try_depth)
-        #depth = colorized_depth[0,0].astype(float)
-        #print (depth)
-        #distance = depth * depth_scale
+        if first_time <= 1:
+            first_time = first_time+1
+            if first_time == 2:
+                depthRef = aligned_depth_frame.get_distance(0,0)
+                while depthRef == 0:
+                    depthRef = aligned_depth_frame.get_distance(0,0)
+                    print depthRef
 
-        # print ("distance is:" , distance)
+        depthM = aligned_depth_frame.get_distance(0,0)
+
+        if depthM !=0:
+            depthRef = (depthRef+depthM)/2
+
+        print "standaard diepte: " + str(depthRef)
+            
+
+
+
+
+        #colorized_depth = np.asanyarray(colorizer.colorize(aligned_depth_frame).get_data()) 
         
         # Standard OpenCV boilerplate for running the net:
         
@@ -107,7 +110,6 @@ try:
         upper_red = np.array([100,100,100])     #en bijna wit
         mask = cv2.inRange(crop_img, lower_red, upper_red)
 
-        ##res = cv2.bitwise_and(crop_img,crop_img, mask= mask)
         
         #CREATE DEAD ZONE (MASK) -> robot arm word hierdoor niet gedetecteerd
         #robotWidth = 250 
@@ -123,26 +125,24 @@ try:
         #https://www.youtube.com/watch?v=_aTC-Rc4Io0
 
 
-        ##imgray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
-        ##ret, thresh = cv2.threshold(imgray, 127, 255, 0)
-
         #thresh gebruikt een waarde uit de grayscale en mask gebruikt een kleur grens uit de rgb scale
         #probeer hier eens RETR_EXTERNAL dit gaat enkel de uiterste contours weergeven.
-        contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  
+        contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)  
 
         cv2.drawContours(crop_img, contours, -1, (0,255,0), 3)              
         #cv2.drawContours(crop_img, contours, contourCnt, (0,255,0), 3)     #all contours
 
-        contours = sorted(contours, key = cv2.contourArea, reverse = True) # get the largest contour 
+        contours = sorted(contours, key = cv2.contourArea, reverse = True)
+        
         u = 0
         teKort = False
         lengteArray = 0
         contourSorted = []
-        # print (contourSorted)
+        print (contourSorted)
         global stringCoordinaten
         stringCoordinaten = ""
         for C in contours:
-           # print str(u)+":"+str(cv2.contourArea(C))
+            print str(u)+":"+str(cv2.contourArea(C))
             if cv2.contourArea(C) > 1000:
                 contourSorted.append(C)
                 if len(contourSorted) == 4:
@@ -155,19 +155,18 @@ try:
             u=u+1
         
                 
-       
-        
+        global puntenDepth
+        puntenDepth = [] 
         rects = []
         for c in contourSorted:
             (xc,yc),radius = cv2.minEnclosingCircle(c)
             center = (int(xc),int(yc))
             radius = int(radius)
             cv2.circle(crop_img,center,radius,(0,255,0),2)
-            #print "center: " + str(center)
             peri = cv2.arcLength(c, True)
             approx = cv2.approxPolyDP(c, 0.02 * peri, True)
             x, y, w, h = cv2.boundingRect(approx)
-            print type(xc)
+            #print type(xc)
             #diepte = aligned_depth_frame.get_distance(int(xc),int(yc))
             # if height is enough
             # create rectangle for bounding
@@ -196,11 +195,23 @@ try:
             kommaX = ((x + (w/2))*expected)/1000000000*expected
             kommaY = ((y + (h/2))*expected)/1000000000*expected
 
-            
+            puntenDepth.append([xc,yc])
+
             stringCoordinaten += str(kommaX)+","+str(kommaY)+";"
+
                 
         if timerBool: 
-            x_tussenwaarde = int(x_waarde/expected)
+            #x_tussenwaarde = int(x_waarde/expected)
+            #for punten in puntenDepth:
+             #   x_temp = int(punten[0])
+              #  y_temp = int(punten[1])
+                #try_depth = aligned_depth_frame.get_distance(693,805)
+                #depth = depthRef - try_depth
+
+                #print "diepte van het punt op xy: " + str(try_depth)
+
+            
+
 
             #Q1
             if int(xc) <500 and int(yc)< 500:
@@ -302,20 +313,20 @@ try:
         cv2.imshow('RealSense5',cv2.cvtColor(crop_img, cv2.COLOR_BGR2RGB))
 
          #OVERLAY DEPTH MAP ON CAMERA
-        cv2.namedWindow('RealSense3', cv2.WINDOW_AUTOSIZE)
-        Transparancy = 0.5
-        width = 640
-        height = 480
-        dim = (width, height)
+        #cv2.namedWindow('RealSense3', cv2.WINDOW_AUTOSIZE)
+        #Transparancy = 0.5
+        #width = 640
+        #height = 480
+        #dim = (width, height)
 
         # resize image
-        resizedRGB = cv2.resize(crop_img, dim, interpolation = cv2.INTER_AREA)
-        resizedDepth = cv2.resize(colorized_depth, dim, interpolation = cv2.INTER_AREA)
+        #resizedRGB = cv2.resize(crop_img, dim, interpolation = cv2.INTER_AREA)
+        #resizedDepth = cv2.resize(colorized_depth, dim, interpolation = cv2.INTER_AREA)
 
-        beta = 1 - Transparancy
-        dst = cv2.addWeighted(resizedDepth,Transparancy,resizedRGB,beta,0)
-        cv2.resizeWindow('RealSense3',640,480)
-        cv2.imshow('RealSense3',dst)
+        #beta = 1 - Transparancy
+        #dst = cv2.addWeighted(resizedDepth,Transparancy,resizedRGB,beta,0)
+        #cv2.resizeWindow('RealSense3',640,480)
+        #cv2.imshow('RealSense3',dst)
 
         #cv2.namedWindow('thresh grey', cv2.WINDOW_NORMAL)
         #cv2.resizeWindow('thresh grey',640,480)
