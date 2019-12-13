@@ -37,12 +37,14 @@
           <table>
             <tr>
                 <td>Topic: </td>
-                <td><input type="text" placeholder="topicname" name="topicname" [(ngModel)]="topicname"/></td>
+                <td><h4>{{topicname}}</h4></td>
                 <td><button type="button" (click)="subscribeNewTopic()">Subscribe Topic</button></td>
             </tr>
             <tr>
                 <td>Message: </td>
-                <td><input [(ngModel)]="msg" type="text" /></td>
+                <td>Geef de X-waarde <input [(ngModel)]="xstring" type="text" /></td>
+                <td>Geef de Y-waarde <input [(ngModel)]="ystring" type="text" /></td>
+                <td>Geef de Z-waarde <input [(ngModel)]="zstring" type="text" /></td>
                 <td><button type="button" (click)="sendmsg()">Send</button></td>
             </tr>
             <tr>

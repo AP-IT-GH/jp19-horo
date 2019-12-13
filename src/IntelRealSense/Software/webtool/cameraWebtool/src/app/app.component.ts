@@ -22,6 +22,11 @@ export class AppComponent implements OnDestroy {
   public msg: any;
   isConnected: boolean = false;
 
+  protected xstring: string;
+  protected ystring: string;
+  protected zstring: string;
+
+
   public message: string;
 
   messages: Array<Foo> = [];
@@ -39,6 +44,7 @@ export class AppComponent implements OnDestroy {
     this.primaryColor = "#ffffff";
     this.secondaryColor = "#9f9f9f";
     this.message = "Hallo we zijn aan het testen";
+    this.topicname = 'webtoolrobotarm';
   }
 
   propState(propState : boolean){
@@ -66,10 +72,22 @@ export class AppComponent implements OnDestroy {
   }
 
   sendmsg(): void {
+    this.SetStringMessage();
     // use unsafe publish for non-ssl websockets
     this._mqttService.unsafePublish(this.topicname, this.msg, { qos: 1, retain: true })
-    this.msg = '';
+    this.ResetStrings();
     console.log(this._mqttService.observe('test').pipe());
+  }
+
+  private SetStringMessage(){
+    this.msg = this.xstring + ';' + this.ystring + ';' + this.zstring + ';';
+  }
+
+  private ResetStrings(){
+    this.xstring = '';
+    this.ystring = '';
+    this.zstring = '';
+    this.msg = '';
   }
 
   logMsg(message): void {
@@ -84,8 +102,9 @@ export class AppComponent implements OnDestroy {
 
   }
 
-  GetMessages(){
-    console.log(this._mqttService.onMessage);
+  GetMessages() {
+    console.log('1');
+    console.log(this._mqttService.onPacketreceive);
   }
 
   editorOn(){
