@@ -97,24 +97,36 @@ export class AppComponent {
   maskNumber : number = 1;
 
   addElement () { 
-  var node = document.createElement("div");
-  var textnode = document.createTextNode("Mask " + this.maskNumber);
-  node.appendChild(textnode);
+    var node = document.createElement("div");
+    var textnode = document.createTextNode("Mask " + this.maskNumber);
+    node.appendChild(textnode);
 
-  //node styling
-  var nodeStyle = node.style; 
-  nodeStyle.width = "80%";
-  nodeStyle.backgroundColor = "white";
-  nodeStyle.marginLeft = "auto";
-  nodeStyle.marginRight = "auto";
-  nodeStyle.height = "60px";
-  nodeStyle.borderRadius = "15px";
-  nodeStyle.marginTop = "25px";
-  nodeStyle.borderStyle = "solid";
-  nodeStyle.borderWidth = "4px";
-  nodeStyle.borderColor = "#2680EB";
+    node.id = this.maskNumber.toString();
 
-  document.getElementById("maskDivsContainer").appendChild(node);
-  this.maskNumber += 1;
-}
+    //node styling
+    var nodeStyle = node.style; 
+    nodeStyle.width = "80%";
+    nodeStyle.backgroundColor = "white";
+    nodeStyle.marginLeft = "auto";
+    nodeStyle.marginRight = "auto";
+    nodeStyle.height = "60px";
+    nodeStyle.borderRadius = "15px";
+    nodeStyle.marginTop = "25px";
+    nodeStyle.borderStyle = "solid";
+    nodeStyle.borderWidth = "4px";
+    nodeStyle.borderColor = "#2680EB";
+
+    document.getElementById("maskDivsContainer").appendChild(node);
+
+    this.addInputFieldInElement(this.maskNumber);
+
+    this.maskNumber += 1;
+  }
+
+  addInputFieldInElement(maskId:number){
+    var node = document.createElement("input");
+    var textnode = document.createTextNode("0");
+    node.appendChild(textnode);
+    document.getElementById(maskId.toString()).appendChild(node);
+  }
 }
