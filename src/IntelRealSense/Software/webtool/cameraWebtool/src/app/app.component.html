@@ -1,0 +1,81 @@
+<!--Camera import information-->
+<!--https://www.npmjs.com/package/ngx-webcam-->
+
+<!--npm install --save ngx-webcam-->
+<!--npm install ngx-color-picker --save-->
+
+<body>
+    <div class="grid-container">
+        <div class="camerastream">
+          <div class="camera">
+            <div class="maskContainer">
+              <div id="mask0"></div>
+              <div id="mask1"></div>
+              <div id="mask2"></div>
+              <div id="mask3"></div>
+            </div>
+            <webcam id="field" (onmousemove)="onmousemove($event)"></webcam>
+          </div>
+          <div style="text-align: right;">cursor: X:{{cursorXCalculated}}m Y:{{cursorYCalculated}}m</div>
+        </div>
+        <div class="rightPanel">
+            <div class="grid-container2">
+                <button id="editorButton" class="editorButton sansSerif" (click)="propState(true)">EDITOR</button>
+                <button id="detectedButton" class="detectedButton sansSerif" (click)="propState(false)">DETECTED</button>
+                <div class="properties">
+                  <div class="editor" id="editor">
+                    <div class="maskDivsContainer" id="maskDivsContainer"></div>
+                    <button class="addMaskButton" (click)="addButton()">ADD MASK</button>
+                  </div>
+                  <div class="detected" id="detected" style="display:none;">
+                    <div class="detectedContainer">
+                      <p style="margin-top: 20px;">STATIC ELEMENT 1</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="bottomPannel">
+          <div class="detection">
+            <div style="font-weight: bold; margin-left: 25px; padding-top: 25px; font-size: 28px; font-family: sans-serif;">Detection</div>
+            <div class="detectionContainer" style="margin-left: 25px; margin-top: 25px; display: flex; flex-direction: row; justify-content: baseline; ">
+              <h2 class="sansSerif">Type</h2>
+              <select class="algorithmSelect">
+                <option value="colorKey">Color key</option>
+                <option value="depth">By depth</option>
+              </select>
+              <input class="colorPicker" [style.background]="primaryColor" [colorPicker]="primaryColor" (colorPickerChange)="primaryColor=$event"/>
+              <input class="colorPicker" [style.background]="secondaryColor" [colorPicker]="secondaryColor" (colorPickerChange)="secondaryColor=$event"/>
+              <h2 class="sansSerif">Width of detection area</h2>
+              <input class="sizeInput sansSerifLight" [(ngModel)]="widthDetectionAreaNumber" value="{{widthDetectionArea}}" onClick="this.setSelectionRange(0, this.value.length)">
+              <h2 class="sansSerif">Height of detection area</h2>
+              <input class="sizeInput sansSerifLight" [(ngModel)]="heightDetectionAreaNumber" value="{{heightDetectionArea}}" onClick="this.setSelectionRange(0, this.value.length)">
+            </div>
+          </div>
+          <table>
+            <tr>
+                <td>Topic: </td>
+                <td><h4>{{topicname}}</h4></td>
+                <td><button type="button" (click)="subscribeNewTopic()">Subscribe Topic</button></td>
+            </tr>
+            <tr>
+                <td>Message: </td>
+                <td>Geef de X-waarde <input [(ngModel)]="xstring" type="text" /></td>
+                <td>Geef de Y-waarde <input [(ngModel)]="ystring" type="text" /></td>
+                <td>Geef de Z-waarde <input [(ngModel)]="zstring" type="text" /></td>
+                <td><button type="button" (click)="sendmsg()">Send</button></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>&nbsp;&nbsp;<button type="button" (click)="clear()">Clear Log</button></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>&nbsp;&nbsp;<button type="button" (click)="GetMessages()">Refresh messages</button></td>
+                <td></td>
+            </tr>
+        </table>
+        </div>
+    </div>
+</body>
