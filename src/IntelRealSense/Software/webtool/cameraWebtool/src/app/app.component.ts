@@ -175,7 +175,7 @@ export class AppComponent implements OnDestroy {
 
   maskNumber : number = 1;
 
-  addElement () {
+  addElement() {
     var node = document.createElement("div");
     var textnode = document.createTextNode("Mask " + this.maskNumber);
     node.appendChild(textnode);
