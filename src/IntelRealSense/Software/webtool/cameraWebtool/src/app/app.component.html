@@ -8,18 +8,30 @@
     <div class="grid-container">
         <div class="camerastream">
           <div class="camera">
-              <webcam></webcam>
+            <div class="maskContainer">
+              <div id="mask0"></div>
+              <div id="mask1"></div>
+              <div id="mask2"></div>
+              <div id="mask3"></div>
+            </div>
+            <webcam id="field" (onmousemove)="onmousemove($event)"></webcam>
           </div>
-          <div style="text-align: right;">cursor: 50X 120Y</div>
-
+          <div style="text-align: right;">cursor: X:{{cursorXCalculated}}m Y:{{cursorYCalculated}}m</div>
         </div>
         <div class="rightPanel">
             <div class="grid-container2">
-                <button id="editorButton" class="editorButton" (click)="propState(true)">EDITOR</button>
-                <button id="detectedButton" class="detectedButton" (click)="propState(false)">DETECTED</button>
+                <button id="editorButton" class="editorButton sansSerif" (click)="propState(true)">EDITOR</button>
+                <button id="detectedButton" class="detectedButton sansSerif" (click)="propState(false)">DETECTED</button>
                 <div class="properties">
-                  <div class="editor"></div>
-                  <div class="detected" style="visibility:hidden"></div>
+                  <div class="editor" id="editor">
+                    <div class="maskDivsContainer" id="maskDivsContainer"></div>
+                    <button class="addMaskButton" (click)="addButton()">ADD MASK</button>
+                  </div>
+                  <div class="detected" id="detected" style="display:none;">
+                    <div class="detectedContainer">
+                      <p style="margin-top: 20px;">STATIC ELEMENT 1</p>
+                    </div>
+                  </div>
                 </div>
               </div>
         </div>
@@ -28,16 +40,16 @@
             <div style="font-weight: bold; margin-left: 25px; padding-top: 25px; font-size: 28px; font-family: sans-serif;">Detection</div>
             <div class="detectionContainer" style="margin-left: 25px; margin-top: 25px; display: flex; flex-direction: row; justify-content: baseline; ">
               <h2 class="sansSerif">Type</h2>
-              <select>
+              <select class="algorithmSelect">
                 <option value="colorKey">Color key</option>
                 <option value="depth">By depth</option>
               </select>
               <input class="colorPicker" [style.background]="primaryColor" [colorPicker]="primaryColor" (colorPickerChange)="primaryColor=$event"/>
               <input class="colorPicker" [style.background]="secondaryColor" [colorPicker]="secondaryColor" (colorPickerChange)="secondaryColor=$event"/>
               <h2 class="sansSerif">Width of detection area</h2>
-              <input class="sizeInput">
+              <input class="sizeInput sansSerifLight" [(ngModel)]="widthDetectionAreaNumber" value="{{widthDetectionArea}}" onClick="this.setSelectionRange(0, this.value.length)">
               <h2 class="sansSerif">Height of detection area</h2>
-              <input class="sizeInput">
+              <input class="sizeInput sansSerifLight" [(ngModel)]="heightDetectionAreaNumber" value="{{heightDetectionArea}}" onClick="this.setSelectionRange(0, this.value.length)">
             </div>
           </div>
           <table>

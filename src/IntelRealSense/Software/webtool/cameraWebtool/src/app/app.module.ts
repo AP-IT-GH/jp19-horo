@@ -10,6 +10,8 @@ import {WebcamModule} from 'ngx-webcam';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxMqttClientModule } from 'ngx-mqtt-client';
 import { MqttModule, IMqttServiceOptions } from 'ngx-mqtt';
+import { from } from 'rxjs';
+import { MaskComponent } from './mask/mask.component';
 
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
@@ -21,7 +23,8 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    ColorpickerComponent
+    ColorpickerComponent,
+    MaskComponent
   ],
   imports: [
     BrowserModule,

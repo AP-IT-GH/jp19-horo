@@ -72,6 +72,8 @@ body{
 }
 
 .editor{
+    display: flex;
+    flex-direction: column;
 }
 
 .detected{}
@@ -81,6 +83,12 @@ body{
     font-size: 16px;
 }
 
+.sansSerifLight{
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: lighter;
+}
+
 .colorPicker{
     margin-left: 20px;
     width: 60px;
@@ -88,8 +96,73 @@ body{
     border-radius: 100%;
     border-style: none;
     cursor: pointer;
+    outline: none;
 }
 
 .sizeInput{
-    
+    border: none;
+    outline: none;
+    background-color: #D8D8D8;
+    border-radius: 10px;
+    text-align: right;
+    padding: 10px;
+}
+
+.detectedContainer{
+    width: 80%;
+    height: 600px;
+    background-color: white;
+    border-style: solid;
+    border-width: 4px;
+    border-color: #2680EB;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.algorithmSelect{
+    border-radius: 5px;
+    height: 60px;
+    width: auto;
+    border: none;
+    outline: none;
+    background-color: #D8D8D8;
+    border-radius: 10px;
+    text-align: right;
+    padding: 10px;
+}
+
+.addMaskButton{
+    width: 400px;
+    height: 80px;
+    border: none;
+    border-style: none;
+    background-color: #2680EB;
+    color: white;
+    border-radius: 15px;
+    font-family: sans-serif;
+    font-size: 34px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    left: 75%;
+}
+
+.addMaskButton:hover{
+    background-color: #216FCD;
+}
+
+.maskProp{
+    background-color: violet;
+    width: 80%;
+    height: 100px;
+}
+
+.maskDivsContainer{
+    overflow: auto;
+    height: 80vh;
 }
