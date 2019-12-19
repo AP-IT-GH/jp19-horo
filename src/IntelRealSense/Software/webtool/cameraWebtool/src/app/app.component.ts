@@ -118,13 +118,110 @@ export class AppComponent {
 
     document.getElementById("maskDivsContainer").appendChild(node);
 
-    this.addInputFieldInElement(this.maskNumber);
+    this.addWidthFieldInElement(this.maskNumber);
+    this.addHeightFieldInElement(this.maskNumber);
+    this.addXPositionFieldInElement(this.maskNumber);
+    this.addYPositionFieldInElement(this.maskNumber);
+    this.addRotationFieldInElement(this.maskNumber);
 
     this.maskNumber += 1;
   }
 
-  addInputFieldInElement(maskId:number){
+  addWidthFieldInElement(maskId:number){
     var node = document.createElement("input");
+
+    node.id = "widthInput" + maskId;
+    node.placeholder = "width";
+
+    var nodeStyle = node.style;
+    nodeStyle.borderRadius = "15px";
+    nodeStyle.borderStyle = "solid";
+    nodeStyle.borderWidth = "2px";
+    nodeStyle.borderColor = "black"
+    nodeStyle.height = "25px";
+    nodeStyle.width = "52px";
+    
+
+    var textnode = document.createTextNode("0");
+    node.appendChild(textnode);
+    document.getElementById(maskId.toString()).appendChild(node);
+  }
+
+  addHeightFieldInElement(maskId:number){
+    var node = document.createElement("input");
+
+    node.id = "heightInput" + maskId;
+    node.placeholder = "height";
+
+    var nodeStyle = node.style;
+    nodeStyle.borderRadius = "15px";
+    nodeStyle.borderStyle = "solid";
+    nodeStyle.borderWidth = "2px";
+    nodeStyle.borderColor = "black"
+    nodeStyle.height = "25px";
+    nodeStyle.width = "52px";
+    
+
+    var textnode = document.createTextNode("0");
+    node.appendChild(textnode);
+    document.getElementById(maskId.toString()).appendChild(node);
+  }
+
+  addXPositionFieldInElement(maskId:number){
+    var node = document.createElement("input");
+
+    node.id = "xPositionInput" + maskId;
+    node.placeholder = "x position";
+
+    var nodeStyle = node.style;
+    nodeStyle.borderRadius = "15px";
+    nodeStyle.borderStyle = "solid";
+    nodeStyle.borderWidth = "2px";
+    nodeStyle.borderColor = "black"
+    nodeStyle.height = "25px";
+    nodeStyle.width = "52px";
+    
+
+    var textnode = document.createTextNode("0");
+    node.appendChild(textnode);
+    document.getElementById(maskId.toString()).appendChild(node);
+  }
+
+  addYPositionFieldInElement(maskId:number){
+    var node = document.createElement("input");
+
+    node.id = "yPositionInput" + maskId;
+    node.placeholder = "y position";
+
+    var nodeStyle = node.style;
+    nodeStyle.borderRadius = "15px";
+    nodeStyle.borderStyle = "solid";
+    nodeStyle.borderWidth = "2px";
+    nodeStyle.borderColor = "black"
+    nodeStyle.height = "25px";
+    nodeStyle.width = "52px";
+    
+
+    var textnode = document.createTextNode("0");
+    node.appendChild(textnode);
+    document.getElementById(maskId.toString()).appendChild(node);
+  }
+
+  addRotationFieldInElement(maskId:number){
+    var node = document.createElement("input");
+
+    node.id = "rotationInput" + maskId;
+    node.placeholder = "rotation";
+
+    var nodeStyle = node.style;
+    nodeStyle.borderRadius = "15px";
+    nodeStyle.borderStyle = "solid";
+    nodeStyle.borderWidth = "2px";
+    nodeStyle.borderColor = "black"
+    nodeStyle.height = "25px";
+    nodeStyle.width = "52px";
+    
+
     var textnode = document.createTextNode("0");
     node.appendChild(textnode);
     document.getElementById(maskId.toString()).appendChild(node);

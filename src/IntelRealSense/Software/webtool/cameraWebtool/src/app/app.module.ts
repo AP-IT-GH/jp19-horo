@@ -9,11 +9,13 @@ import { ColorpickerComponent } from './colorpicker/colorpicker.component';
 import {WebcamModule} from 'ngx-webcam';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { from } from 'rxjs';
+import { MaskComponent } from './mask/mask.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ColorpickerComponent
+    ColorpickerComponent,
+    MaskComponent
   ],
   imports: [
     BrowserModule,
