@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
+import robotcocalc
 import json
 
 MQTT_SERVER = "192.168.0.69"
@@ -26,15 +27,19 @@ def start():
         
         test = CL.split(';')[int(c)]
         test += ",50"
-        print (test)
+        #print (test)
         Coordinaten = test.split(',')
 
         x = Coordinaten[0]
         y = Coordinaten[1]
-        z = Coordinaten[2]
+        z = int(Coordinaten[2])
 
-        print x
-        #publish.single(MQTT_ROBOT,payload=json.dumps(msg),hostname=MQTT_SERVER)
+        x_R, y_R = robotcocalc.calcCoordinaten(x,y)
+        print (x_R)
+        RobotMsg = {"x" : x_R, "y" : y_R, "z" : z}
+        print (json.dumps(RobotMsg))
+
+        publish.single(MQTT_PATH_ROBOT,payload=json.dumps(RobotMsg),hostname=MQTT_SERVER)
 
 
     client = mqtt.Client()
@@ -46,83 +51,3 @@ def start():
 def setCoordinatenList(clist):
     global CL
     CL = clist
-
-
-def calcRobot(xc,yc):
-    if int(xc) <500 and int(yc)< 500:
-        print "Q1"
-        #x waardes
-        if int(yc) < 200:
-            if int (xc) < 100:
-                x_robot = (int(xc) - 670)
-            elif int(xc) >= 100 and int(xc) <200:
-                x_robot = (int(xc)-500)
-            elif int(xc) >= 200 and int(xc) < 300:
-                x_robot = (int(xc)-500)
-            elif int(xc) >= 300 and int(xc) < 400:
-                x_robot = (int(xc) - 450)
-            else:
-                x_robot = (int(xc) - 450)
-            y_robot = (int(yc) - 500)
-        else:
-            if int (xc) < 100:
-                x_robot = (int(xc) - 670)
-            elif int(xc) >= 100 and int(xc) <200:
-                x_robot = (int(xc)-600)
-            elif int(xc) >= 200 and int(xc) < 300:
-                x_robot = (int(xc)-550)
-            elif int(xc) >= 300 and int(xc) < 400:
-                x_robot = (int(xc) - 450)
-            else:
-                x_robot = (int(xc) - 450)
-            y_robot = (int(yc) - 550)
-        #y waardes
-        
-    #Q2
-    elif int(xc) >= 500 and int(yc) < 500:
-        print "Q2"
-        #x waardes
-        if int(xc) < 600:
-            x_robot =(int(xc)-450)
-            y_robot = (int(yc)-550)
-        elif int (xc) >=600 and int(xc) < 700 :
-            x_robot = (int(xc) - 400)
-            y_robot = (int(yc)-550)
-        elif int(xc) >=700 and int(xc) < 800:
-            x_robot = (int(xc)-350)
-            y_robot = (int(yc)-550)
-        else:
-            x_robot = (int(xc)-300)
-            y_robot = (int(yc)-450)
-        
-    #Q3
-    elif int(xc) >= 500 and int(yc) >= 500:
-        print "Q3"
-        #x waardes
-        if int (xc) >=600 and int(xc) < 700 :
-            x_robot = (int(xc) - 450)
-            y_robot = (int(yc)-400)
-        elif int(xc) >=700 and int(xc) < 750:
-            x_robot = (int(xc)-400)
-            y_robot = (int(yc)-350)
-        elif int(xc) >=750 and int(xc) < 800:
-            x_robot = (int(xc)-350)
-            y_robot = (int(yc)-350)
-        else:
-            x_robot = (int(xc)-300)
-            y_robot = (int(yc)-400)
-        
-    #Q4
-    else:
-        print " Q4"
-        if int (xc) < 100:
-            x_robot = (int(xc) - 670)
-        elif int(xc) >= 100 and int(xc) <200:
-            x_robot = (int(xc)-670)
-        elif int(xc) >= 200 and int(xc) < 300:
-            x_robot = (int(xc)-650)
-        elif int(xc) >= 300 and int(xc) < 400:
-            x_robot = (int(xc) - 550)
-        else:
-            x_robot = (int(xc) - 500)
-        y_robot = (int(yc)-500)

@@ -1,6 +1,4 @@
-
 # First import the library
-
 import cv2                                # state of the art computer vision algorithms library
 import numpy as np                        # fundamental package for scientific computing
 import matplotlib.pyplot as plt           # 2D plotting library producing publication quality figures
@@ -22,6 +20,9 @@ import thread
 #timer functie voor in een thread te laten lopen voor elke vijf seconden cordinaten door te sturen
 timerBool = False
 
+def get_frame(image):
+    ret,jpeg = cv2.imencode('.jpeg', imgage)
+    return jpeg.tobytes()
 
 
 def timer():
@@ -97,11 +98,7 @@ try:
         if depthM !=0:
             depthRef = (depthRef+depthM)/2
 
-        #print "standaard diepte: " + str(depthRef)
-            
-
-
-
+        #print "standaard diepte: " + str(depthRef
 
         #colorized_depth = np.asanyarray(colorizer.colorize(aligned_depth_frame).get_data()) 
         
@@ -125,9 +122,9 @@ try:
         
         #CREATE DEAD ZONE (MASK) -> robot arm word hierdoor niet gedetecteerd
         robotWidth = 300 
-        robotHeight = 700 
+        robotHeight = 350
         xRobot = 450 - (robotWidth/2)
-        yRobot = 650 - (robotHeight/2)
+        yRobot = 550 - (robotHeight/2)
         xRobotWidth = xRobot + robotWidth
         yRobotHeight = yRobot + robotHeight
 
@@ -196,15 +193,10 @@ try:
             x_waarde = (x + (w/2))
             y_waarde = (y + (h/2))
 
-            stringRobot += str(xc) +","+str(yc)+";"
+            xcI = int(xc)
+            ycI = int(yc)
 
-            #print("----------------------------------")
-            #print("x center" + str(x_waarde))
-            #print("y center" + str(y_waarde))
-
-            #print("----------------------------------")
-            #print("blauwe coordinaten")
-            #print(box * expected)
+            stringRobot += str(xcI) +","+str(ycI)+";"
 
             #alle coordinaten sturen naar de hololens
 
@@ -219,17 +211,15 @@ try:
             #msg = {"x" : x_robot, "y" : y_robot, "z" : 100}
             #print(json.dumps(msg, sort_keys=True, indent=4))
             #publish.single(MQTT_ROBOT,payload=json.dumps(msg),hostname=MQTT_SERVER)
-            timerBool = False
-
-            #print("----------------------------------")
-            #print("x center" + str(((x + (w/2))*expected)/1000) + "mm " + str(((x + (w/2))*expected)/10000000*expected) + "%")
-            #print("y center" + str(((y + (h/2))*expected)/1000) + "mm " + str(((y + (h/2))*expected)/10000000*expected) + "%")
-            #print("----------------------------------")
+           
             
             
         #https://stackoverflow.com/questions/44902550/stream-opencv-frame-to-html-in-python
+
+        Webserver.setFoto(crop_img)
         
         mqttserver.setCoordinatenList(stringRobot)
+        print (stringCoordinaten)
         publish.single(MQTT_HOLO,payload = stringCoordinaten,hostname = MQTT_SERVER)
         cv2.namedWindow('RealSense5', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('RealSense5',640,480)
