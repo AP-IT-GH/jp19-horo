@@ -19,6 +19,17 @@ Als stepper motor werd ons de Wantai Stepper Motor 42BYGHM809 aangeboden. Deze s
 Elke component is dan nagemaakt of gedesigned in Fusion360 om op deze manier een compleet beeld te kunnen geven van de volledige robotarm en zijn afmetingen. De componenten zijn gecombineerd in 1 bestand dat dan de volledige robotarm voorstelt. Uiteraard zijn de componenten ook los te bekijken, maar de robotarm is ook volledig in zijn geheel zichtbaar.
 
 
+## Navigeren in deze repo
+Doorheen dit project zijn verschillende programmeertalen, documenten en tools gebruikt. Deze staan allemaal verdeeld in de verschillende mappen van het project.
+
+De verschillende onderdelen zijn terug te vinden in het mapje 'src'. Hierin staan alle prototypes, designs, programma's die gebruikt zijn (en waarin gecodeerd is).
+In het mapje 'basket_danny' staat het standaard .ino project dat bij de braccio robotoarm (met als de door ons gegeven benaming Danny) meekomt.
+Als laatste is de documentatie te vinden in de 'doc' map. Deze map is verder nog verdeelt in 'datasheets', 'img' en 'rapport'.
+In 'datasheets' kunnen eventueel gebruikte componenten hun datasheets geplaats worden. Wij hebben geen externe componenten gebruikt tot hiertoe (wat uiteindelijk wel het plan is) waardoor deze map leeg is.
+In 'img' staan alle afbeeldingen die gebruikt worden in de verschillende markdown bestanden of die als extra ondersteuning dienen bij een gebruikte tool.
+Als laatste kunnen er in de map 'rapport' verschillende rapporten/bestanden terug gevonden worden die gebruikt zijn geweest voor de rapportering, alsook de nog niet gebruikte datasheets voor de robotarm.
+
+
 ## De vereisten
 * De arm moet een restricted enveloppe hebben van 0,5m (straal), de maximum enveloppe van de robotarm kan dus wel degelijk groter zijn.
 * De arm moet een object van 1kg kunnen optillen op 0,5m afstand.
