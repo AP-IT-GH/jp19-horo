@@ -4,7 +4,7 @@ Object detection**
  1. Wat is een intel realsense?
  2. Hoe werkt object detectie?
  3. Waarom object detectie op deze manier?
- 4. Voorbeeld toepassing
+ 4. Uitleg van de code
 
 # Wat is een intel realsense?
 
