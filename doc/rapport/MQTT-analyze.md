@@ -118,4 +118,90 @@ We hebben een paar vaste variablen die je vaak gaat terug zien komen ivm de topi
     mqttserver.setCoordinatenList(stringRobot)
     publish.single(MQTT_HOLO,payload = stringCoordinaten,hostname = MQTT_SERVER)
 ```
-6. Wat je ook merkt is dat we de coördinaten van voor de robot eerst gaan berekenen 
+6. Wat je ook merkt is dat we de coördinaten van voor de robot eerst gaan berekenen vanuit een ander scriptje. Dit was nodig om de assenstelsels van de robot gelijk te laten lopen met dat van de camera. De robotarm is ook niet zo nauwkeurig dit hebben we proberen op te lossen met het assenstelsel in zoveel mogelijk kleine deeltjes onder te verdelen. Zo ziet het script voor het berekenen van de coördinaten van het assenstelsel eruit:
+```Python
+def calcCoordinaten(xc,yc):
+    print ("kom ik hier")
+    print xc,yc
+    if int(xc) <500 and int(yc)< 500:
+        print "Q1"
+        #x waardes
+        if int(yc) < 200:
+            if int (xc) < 100:
+                x_robot = (int(xc) - 670)
+            elif int(xc) >= 100 and int(xc) <200:
+                x_robot = (int(xc)-500)
+            elif int(xc) >= 200 and int(xc) < 300:
+                x_robot = (int(xc)-500)
+            elif int(xc) >= 300 and int(xc) < 400:
+                x_robot = (int(xc) - 450)
+            else:
+                x_robot = (int(xc) - 450)
+            y_robot = (int(yc) - 500)
+        else:
+            if int (xc) < 100:
+                x_robot = (int(xc) - 670)
+            elif int(xc) >= 100 and int(xc) <200:
+                x_robot = (int(xc)-600)
+            elif int(xc) >= 200 and int(xc) < 300:
+                x_robot = (int(xc)-550)
+            elif int(xc) >= 300 and int(xc) < 400:
+                x_robot = (int(xc) - 450)
+            else:
+                x_robot = (int(xc) - 450)
+            y_robot = (int(yc) - 550)
+        return x_robot, y_robot
+        
+    #Q2
+    elif int(xc) >= 500 and int(yc) < 500:
+        print "Q2"
+        #x waardes
+        if int(xc) < 600:
+            x_robot =(int(xc)-450)
+            y_robot = (int(yc)-550)
+        elif int (xc) >=600 and int(xc) < 700 :
+            x_robot = (int(xc) - 400)
+            y_robot = (int(yc)-550)
+        elif int(xc) >=700 and int(xc) < 800:
+            x_robot = (int(xc)-350)
+            y_robot = (int(yc)-550)
+        else:
+            x_robot = (int(xc)-300)
+            y_robot = (int(yc)-450)
+        return x_robot, y_robot
+        
+    #Q3
+    elif int(xc) >= 500 and int(yc) >= 500:
+        print "Q3"
+        #x waardes
+        if int (xc) >=600 and int(xc) < 700 :
+            x_robot = (int(xc) - 450)
+            y_robot = (int(yc)-400)
+        elif int(xc) >=700 and int(xc) < 750:
+            x_robot = (int(xc)-400)
+            y_robot = (int(yc)-350)
+        elif int(xc) >=750 and int(xc) < 800:
+            x_robot = (int(xc)-350)
+            y_robot = (int(yc)-350)
+        else:
+            x_robot = (int(xc)-300)
+            y_robot = (int(yc)-400)
+        return x_robot, y_robot
+        
+    #Q4
+    else:
+        print " Q4"
+        if int (xc) < 100:
+            x_robot = (int(xc) - 670)
+        elif int(xc) >= 100 and int(xc) <200:
+            x_robot = (int(xc)-670)
+        elif int(xc) >= 200 and int(xc) < 300:
+            x_robot = (int(xc)-650)
+        elif int(xc) >= 300 and int(xc) < 400:
+            x_robot = (int(xc) - 550)
+        else:
+            x_robot = (int(xc) - 500)
+        y_robot = (int(yc)-500)
+
+        return x_robot, y_robot
+```

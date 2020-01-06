@@ -43,7 +43,7 @@ Om de positie van het object nauwkeuriger te kunnen bepalen kan men best de rect
 # Waarom object detectie op deze manier?
 
 Ik ben begonnen met object detectie te doen met een deep learning algoritme. Bij het standaard project van de intel realsense wordt een klein deep aangeleerd netwerk meegeleverd (coffee table). Het goede aan een deep learn network is dat dit kan uitgevoerd worden in een ongecontroleerde omgeving. Het programma zal namelijk zoeken naar patronen als men de pixels van de photo afgaan. Het nadeel is echter dat men voor elk object dat men wilt detecteren, men dit eerst de computer moet aanleren door een hoop fotos te implementeren (bv mens => 50 foto’s van mensen). Een bijkomend nadeel is dat zo een algoritme enorm veel processing power (vooral grafisch) vereist aangezien hij eerst de afbeelding moet renderen en dan op elke object van zijn deep geleerd netwerk moet gaan testen (of er een overeenkomstig patroon is). Dit zorgt dus voor een niet real time toepassing.
-Dit hebben we dus niet gebruikt in onze toepassing, we hebben besloten om contour detectie te gebruiken. Dit is een betere en snelleren manier om objecten te detecteren.
+Dit hebben we dus niet gebruikt in onze toepassing, we hebben besloten om contour detectie te gebruiken. Dit is een betere en snellere manier om objecten te detecteren.
 
 # Uitleg van de code
 
@@ -58,7 +58,7 @@ Voor we beginnen met onze code moeten we eerst alle libraries importen die we no
     import math
 ```
 
-1. We moeten beginnen een pipeline aan te maken die alle handelingen van de geconnecteerde realsense aparaten gaat bijhouden.
+1. We moeten beginnen met een pipeline aan te maken die alle handelingen van de geconnecteerde realsense aparaten gaat bijhouden.
 ```python
     pipeline = rs.pipeline()
     pipeline.start()
