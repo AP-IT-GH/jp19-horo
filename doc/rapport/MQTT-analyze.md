@@ -1,10 +1,10 @@
 # MQTT
 
-We hebben in dit project gekozen om de verbindingen tussen alle toestellen te doen met MQTT. Dit omdat het ons het gemakkelijkste leek om alles met 1 protocol te doen en over wifi wat sneller en betrouwbaarder is als bluetooth.
+We hebben in dit project gekozen om de verbindingen tussen alle toestellen te doen met MQTT. Om de simpele reden dat het makkelijker is om alles met 1 protocol te doen. Nog een voordeel van MQTT is dat dit over wifi gaat, wat sneller en betrouwbaarder is dan bluetooth.
 
 ## Wat is MQTT?
 
-MQTT is een Client Server publish/subcribe messaging transport protocol. Het is een licht, open, gemakkelijk en gemaakt om gemakkelijk te implementeren. Deze karaktereigenschappen maken het ideaal om ge gebruiken in heel veel situaties, inclusief omgeving met een beperkte mogelijkheid om te communiceren zoals bij Machine to Machine(M2M) en IOT.
+MQTT is een Client Server publish/subcribe messaging transport protocol. Het is een licht, open en gemakkelijk protocol dat ook nog eens eenvoudig te implementeren is. Deze karaktereigenschappen maken het ideaal om ge gebruiken in heel veel situaties, inclusief in een omgeving met een beperkte mogelijkheid om te communiceren zoals bij Machine to Machine(M2M) en IOT.
 
 De voordelen van MQTT zijn:
 * gemakkelijk om te implementeren
@@ -15,14 +15,14 @@ Het MQTT protocol is gebaseerd op het TCP/IP.
 
 ## Hoe werkt MQTT
 ### Het publish/subcribe patroon
-De publish/subcribe patroon (pub/sub) geeft een alternatief voor de traditionele client-server architectuur.In de traditionele client-server architectuur, communiceert de client direct met het eindpunt. De publisher en subcriber staan nooit direct met elkaar in verbinding. De connectie wordt mogelijk gemaakt door de broker. De taak van de broker is de inkomende berichten filteren en deze afleveren aan de juiste subscribers. De connectie is altijd tussen één client en de broker.
+Het publish/subcribe patroon (pub/sub) geeft een alternatief voor de traditionele client-server architectuur.In de traditionele client-server architectuur, communiceert de client direct met het eindpunt. De publisher en subcriber staan nooit direct met elkaar in verbinding. Bij MQTT wordt de connectie echter mogelijk gemaakt door gebruik te maken van een middelman, de broker. De taak van de broker is de inkomende berichten filteren en deze afleveren aan de juiste subscribers. De connectie met MQTT is er dus altijd één tussen een client en een broker.
 
 #### Publish
 Als een client verbonden is met een broker kan deze berichten publishen. Elke bericht moet een topic hebben dat de broker kan gebruiken om het bericht naar de geïnteresseerde clients te verzenden.
 
 #### Subcribe
-Een client moet verbonden worden met de broker anders heeft het geen zin om berichten te verzenden als niemand deze ontvangt. Om berichten te krijgen van een bepaalde topic moet de client een subcribe bericht sturen naar de broker.
-Een client kan ook altijd unsubcribe van een topic als het geen berichten meer wil ontvangen in verband met een topic. Hiervoor moet de client een unsubcribe bericht schrijven naar de broker.
+Een client moet verbonden worden met de broker. Indien dit niet het geval is heeft het geen zin om berichten te verzenden aangezien dat niemand deze zal ontvangen. Om berichten te krijgen van een bepaald topic moet de client een subcribe bericht sturen naar de broker.
+Een client kan ook altijd een unsubcribe van een topic indien het geen berichten meer wil ontvangen in verband met een topic. Hiervoor moet de client een unsubcribe bericht schrijven naar de broker.
 
 #### Topics
 De broker gebruikt topics voor het filteren van berichten(topics) voor iedere connectie. De topics kunnen bestaan van één of meerdere topics levels. Elk level is gescheiden door een forward slash (dit worde de topic level separator genoemd).
@@ -45,7 +45,7 @@ Voor de topic van de robotarm gaan we "robotarm" gebruiken hier wordt json naar 
 
 
 #### Eindproject
-We moeten nu de hololens erbij betrekken. Deze moet ook de plaatsen krijgen waar er objecten liggen maar niet in x en y coördinaten maar in procenten dus wat we hiervoor moeten doen is het versturen in een andere topic. De hololens moet deze dan terug sturen naar de realsense, hiervoor hebben we nog een andere topic nodig. Als we nu op software die de realsense aanstuurt hebben nagegaan welk object we hebben geselecteerd moeten we dit dan nog verzenden naar de robotarm zodat deze dat voorwerp kan oppakken.
+We moeten nu de Hololens erbij betrekken. Deze moet ook de plaatsen krijgen waar objecten liggen. Echter moeten deze locaties niet in x en y coördinaten, maar in procenten worden verstuurd. Dit doen we door deze informatie te versturen in een ander topic. De hololens moet deze dan terug sturen naar de realsense, hiervoor hebben we nog een ander topic nodig. Als we nu op software die de realsense aanstuurt hebben nagegaan welk object we hebben geselecteerd moeten we dit dan nog verzenden naar de robotarm zodat deze dat voorwerp kan oppakken.
 
 De topic van de robotarm blijft hetzelfde.
 Voor het versturen van de realsense naar de hololens gaan we de topic "ToHololens" gebruiken.
