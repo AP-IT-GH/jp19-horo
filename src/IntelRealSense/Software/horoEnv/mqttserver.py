@@ -27,7 +27,6 @@ def start():
         
         test = CL.split(';')[int(c)]
         test += ",50"
-        #print (test)
         Coordinaten = test.split(',')
 
         x = Coordinaten[0]
