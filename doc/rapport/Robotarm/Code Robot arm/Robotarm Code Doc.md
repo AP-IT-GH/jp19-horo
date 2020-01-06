@@ -40,7 +40,7 @@ willen doen van aansturing, dit hebben we bereikt door de libraries van Arduino
 om te zetten naar Python en via een PCA9685 Servo driver elke servo aan te
 sturen in plaats van via de arduino hat.
 
-![](./Robotarm Code Doc/ce2f495cd9e62402cdb9d3143e887d74.png)
+![](../Robotarm Code Doc/ce2f495cd9e62402cdb9d3143e887d74.png)
 
 Hoe?
 ----
