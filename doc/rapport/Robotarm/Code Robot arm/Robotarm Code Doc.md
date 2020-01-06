@@ -40,7 +40,7 @@ willen doen van aansturing, dit hebben we bereikt door de libraries van Arduino
 om te zetten naar Python en via een PCA9685 Servo driver elke servo aan te
 sturen in plaats van via de arduino hat.
 
-![](./media/ce2f495cd9e62402cdb9d3143e887d74.png)
+![](./Robotarm Code Doc/ce2f495cd9e62402cdb9d3143e887d74.png)
 
 Hoe?
 ----
@@ -75,7 +75,7 @@ dus moeten werken tussen de 0,6ms en 2,4ms om de servo’s te laten werken.
 
 Onze PCA9685 kan perfect tussen deze waardes werken.
 
-![](media/59204ec28286bb3fdc8f218239eeb323.png)
+![](./Robotarm Code Doc/59204ec28286bb3fdc8f218239eeb323.png)
 
 Door onze PCA9685 library zijn werk frequentie ook in te stellen of 50Hz ipv de
 basis 60Hz en door te weten dat de PCA9685 zijn minimum 0 is en zijn maximum
@@ -102,25 +102,25 @@ motoren en kunnen we dus de servo motoren aansturen via de Raspberry-Pi. Om deze
 dan allemaal aan te sturen heb ik de library van de Arduino omgezet en
 getweaked.
 
-![](media/8e7a0fb84245082bc179f28666f581d7.png)
+![](./Robotarm Code Doc/8e7a0fb84245082bc179f28666f581d7.png)
 
 Dit roepen we aan om de servo motoren te laten bewegen. De variablen geven een
 hoek tussen 0 en 180 graden weer net zoals kracht en hoek.
 
-![](media/963d3b586b5f84c266e477fe65154420.png)
+![](./Robotarm Code Doc/963d3b586b5f84c266e477fe65154420.png)
 
-![](media/5d1000e14e34b401eb65e7c9533c27a0.png)
+![](./Robotarm Code Doc/5d1000e14e34b401eb65e7c9533c27a0.png)
 
 Eerst kijken we na of de waardes die we doorsturen naar de servo motoren wel
 degelijk aanvaardbaar zijn voor de servo motoren, we mogen natuurlijk niet hoger
 dan 180 gaan of lager dan 0 bij een servo. Dit kijken we dus na en de waarde
 wordt dan omgezet naar de waardes die we kunnen doorsturen naar de PCA9685.
 
-![](media/b667ab4cc26d47594f034604057105f3.png)
+![](./Robotarm Code Doc/b667ab4cc26d47594f034604057105f3.png)
 
-![](media/4fe1a9ce983a9780b06073fc31cf0ce8.png)
+![](./Robotarm Code Doc/4fe1a9ce983a9780b06073fc31cf0ce8.png)
 
-![](media/0539770282510ba8b961aaa282e0b58b.png)
+![](./Robotarm Code Doc/0539770282510ba8b961aaa282e0b58b.png)
 
 Hierna veranderen we stap voor stap de waardes van de servo motoren. Deze kijkt
 eerst na of hij op dit moment hoger of lager staat dan de gewilde waarde en zal
@@ -141,24 +141,24 @@ De **Link** class representeert de verbinding tussen de servo motoren, hierin
 wordt bv bijgehouden op welke hoek hij op dat moment staat en hoe lang de
 verbinding is tussen deze motoren. Dit is nodig voor de berekeningen.
 
-![](media/b047f9d06d7278002208273979ded439.png)
+![](./Robotarm Code Doc/b047f9d06d7278002208273979ded439.png)
 
 De **Inverse** class dient om al deze links samen te voegen en al onze
 wiskundige logica bij te houden, hierin worden alle berekeningen gedaan. (foto
 hieronder is maar een klein deel van deze classe)
 
-![](media/1990b7309dad94e1d306c3497bbc8bbb.png)
+![](./Robotarm Code Doc/1990b7309dad94e1d306c3497bbc8bbb.png)
 
 Om te beginnen in deze library maken we natuurlijk eerst de classes hun
 variables aan, onze arm bestaat uit 4 delen dus maken we ook 4 keer een Link aan
 die we hierna binden aan onze inverseK library.
 
-![](media/bf905267464223a0af5a6cc3432034c1.png)
+![](./Robotarm Code Doc/bf905267464223a0af5a6cc3432034c1.png)
 
 Na het initializeren kunnen we de kijken of de coordinaten mogelijk zijn via
 onze library door het volgende lijntje code.
 
-![](media/f1681e33a0e0336df77f876110b8d64c.png)
+![](./Robotarm Code Doc/f1681e33a0e0336df77f876110b8d64c.png)
 
 Deze verwijst dus door naar het begin van onze InverseK library en zal een
 boolean terug geven indien deze coordinaten mogelijk zijn en de variables A0
@@ -168,9 +168,9 @@ Het eerste deel van de library zal nakijken naar welke positie de base van de
 arm moet draaien om in het juiste kwadrant te staan en van hieruit verder gaan
 naar de volgende berekekingen.
 
-![](media/ddc1a2b0c043cd6b0c79f68589c44f48.png)
+![](./Robotarm Code Doc/ddc1a2b0c043cd6b0c79f68589c44f48.png)
 
-![](media/02c94308d2b0b151600f1f3c30f48797.png)
+![](./Robotarm Code Doc/02c94308d2b0b151600f1f3c30f48797.png)
 
 Hieronder is de wiskunde berekening voor het nakijken of de gewilde coordinaten
 mogelijk te bereiken zijn via de gegevens die we hebben. Kort samen gevat zal
@@ -180,7 +180,7 @@ moment buiten zijn maximum servo waardes valt of een mogelijke hoeken combinatie
 heeft gevonden. Als je een vaste hoek meegeeft zal hij dit maar 1 keer uitvoeren
 en gewoon weergeven of de positie te bereiken is via de hoek die je meegeeft
 
-![](media/2690212bb4cd96687255fd5d9bdebefd.png)
+![](./Robotarm Code Doc/2690212bb4cd96687255fd5d9bdebefd.png)
 
 Waarom?
 -------
