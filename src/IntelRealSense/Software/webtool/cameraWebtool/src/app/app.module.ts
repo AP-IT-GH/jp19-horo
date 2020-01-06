@@ -14,10 +14,17 @@ import { from } from 'rxjs';
 import { MaskComponent } from './mask/mask.component';
 
 
+// export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+//   hostname: 'broker.mqttdashboard.com',
+//   port: 8000,
+//   path: '/mqtt'
+// };
+
+
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
-  hostname: 'broker.mqttdashboard.com',
-  port: 8000,
-  path: '/mqtt'
+  hostname: '192.168.0.69',
+  port: 1883,
+  path: '/'
 };
 
 @NgModule({
