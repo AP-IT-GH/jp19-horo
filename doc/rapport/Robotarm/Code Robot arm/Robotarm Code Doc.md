@@ -40,7 +40,7 @@ willen doen van aansturing, dit hebben we bereikt door de libraries van Arduino
 om te zetten naar Python en via een PCA9685 Servo driver elke servo aan te
 sturen in plaats van via de arduino hat.
 
-![](../Robotarm Code Doc/ce2f495cd9e62402cdb9d3143e887d74.png)
+![](img/ce2f495cd9e62402cdb9d3143e887d74.png)
 
 Hoe?
 ----
@@ -57,9 +57,9 @@ te grote PWM geeft geen reactie net zoals een te kleine PWM.
 Hieronder is het maximale en minimale signaal van de servo’s zichtbaar (via de
 servo hat).
 
-![](media/428a44e376874244c19a5cf6fb33e58a.jpg)
+![](img/428a44e376874244c19a5cf6fb33e58a.jpg)
 
-![](media/6d3c290967e9f8eb105deb0ebad0aa78.jpg)
+![](img/6d3c290967e9f8eb105deb0ebad0aa78.jpg)
 
 De frequentie staat op 50Hz wat dus een periode geeft van 20ms.
 
