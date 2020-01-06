@@ -84,9 +84,9 @@ Voor we beginnen met onze code moeten we eerst alle libraries importen die we no
     if not depth_frame or not color_frame:
             continue
 ```
-Deze call wacht tot er een nieuwe samenhangende set van frames toegankelijk zijn op een apparaat. Als de diepte of color frames niet zijn aangekomen op tijd zal het programma nog steeds runnen door de continue in de if.
+> Deze call wacht tot er een nieuwe samenhangende set van frames toegankelijk zijn op een apparaat. Als de diepte of color frames niet zijn aangekomen op tijd zal het programma nog steeds runnen door de continue in de if.
 
-We gaan nu eerst verder met de kleuren frames en de contour detectie voor we naar de diepte gaan.
+> We gaan nu eerst verder met de kleuren frames en de contour detectie voor we naar de diepte gaan.
 
 3. We gaan gebruik maken van de numpy bibliotheek om de de data van de kleuren frame bij te houden, hiermee kunnen we laten dan bewerkingen mee gaan doen.
 
