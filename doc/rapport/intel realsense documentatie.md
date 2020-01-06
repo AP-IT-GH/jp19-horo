@@ -119,11 +119,53 @@ We gaan nu eerst verder met de kleuren frames en de contour detectie voor we naa
     mask = cv2.inRange(crop_img, lower_red, upper_red)
 ```
 
-7. Nu we dit allemaal hebben kunnen we de contouren gaan detecteren. Hier is een functie voor in de opencv bibliotheek, deze is findContours
-Deze heeft drie parameters: de eerste is de mask die meegeven moet worden welke kleuren er moeten gevonden worden, de tweede parameter is voor de hierarchy( hiermee wordt er bedoeld welke contouren er worden gedecteerd enkel de uiterste met de hoogste hierarchy of allemaal dus ook contouren in contouren, het perfecte is RERT_TREE dit detecteerd alles en maakt een volledige hierarchy), de derde en laatste parameten is voor het opslagen van de punten ( je hebt twee keuzes none: hier worden alle punten opgeslagen, dit neemt veel plaats in beslag en Simple: hierbij worden enkel de hoekpunten opgeslagen en wordt er nadien tussen deze hoekpunten een lijn getrokken)
+7. De Robot staat in het midden van de area waarin gedetecteerd wordt en zal dus mee gedetecteerd worden. Dit is een probleem omdat we dit geen object is dat we willen detecteren. Wat wij gedaan hebben om de robot niet mee te detecteren is een mask over zetten zodat de camera denkt dat er niks staat.
+
+```python
+    robotWidth = 300 
+    robotHeight = 350
+    xRobot = 450 - (robotWidth/2)
+    yRobot = 550 - (robotHeight/2)
+    xRobotWidth = xRobot + robotWidth
+    yRobotHeight = yRobot + robotHeight
+
+    cv2.rectangle(mask,(xRobot,yRobot),(xRobotWidth,yRobotHeight),(0,0,0),-1)cv2.rectangle(crop_img,(xRobot,yRobot),(xRobotWidth,yRobotHeight),(255,255,0),-1)
+```
+
+
+8. Nu we dit allemaal hebben kunnen we de contouren gaan detecteren. Hier is een functie voor in de opencv bibliotheek, deze is findContours
+Deze heeft drie parameters: de eerste is de mask die meegeven moet worden welke kleuren er moeten gevonden worden, de tweede parameter is voor de hierarchy( hiermee wordt er bedoeld welke contouren er worden gedecteerd enkel de uiterste met de hoogste hierarchy of allemaal dus ook contouren in contouren, het perfecte is RERT_TREE dit detecteerd alles en maakt een volledige hierarchy), de derde en laatste parameten is voor het opslagen van de punten ( je hebt twee keuzes none: hier worden alle punten opgeslagen, dit neemt veel plaats in beslag en Simple: hierbij worden enkel de hoekpunten opgeslagen en wordt er nadien tussen deze hoekpunten een lijn getrokken). Als we gaan kijken naar wat de functie teruggeeft, zien we dat het twee parameters teruggeeft. Contours hierin zit een array met de hoekpunten van de contours en hierarchy zit de hierarchy in dat je juist over gelezen hebt.
 
 ```python
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 ```
-Als we gaan kijken naar wat de functie teruggeeft, zien we dat het twee parameters teruggeeft. Contours hierin zit een array met de hoekpunten van de contours en hierarchy zit de hierarchy in dat je juist over gelezen hebt.
 
+9. Als we de contouren hebben gedetecteerd gaan we deze nu tekenen op de image die we gaan weergeven op het einde zodat we een beeld hebben van wat de camera doet.
+
+```python
+    cv2.drawContours(crop_img, contours, -1, (0,255,0), 3)  
+```
+
+10. Het is op de hololens momenteel nog niet mogelijk om meer dan 4 objecten te verwerken. Op de Realsense gaan we dus een selectie maken van enkel de vier grootste objecten. Dit doen we met de functie sorted die in python zit en we kunnen in de cv2 de opervlakte van de area opvragen per object, hierop gaan we dus ook sorteren. Als we de gesorteerde aray hebben gaan we er de eerste vier uitpakken. Als extra dat we hierop gedaan hebben is enkel met de objecten verder gaan die groot genoeg zijn. Dit hebben we gedaan met ene simpele for loop.
+
+```python
+    contours = sorted(contours, key = cv2.contourArea, reverse = True)
+
+    u = 0
+    teKort = False
+    lengteArray = 0
+    contourSorted = []
+    for C in contours:
+        if cv2.contourArea(C) > 1000:
+            contourSorted.append(C)
+            if len(contourSorted) == 4:
+                break
+
+        else:
+            teKort = True
+            lengteArray = len(contourSorted)
+            break
+        u=u+1 
+```
+
+11. We hebben nu de array met de objecten waar we de coördinaten moeten uithalen. We gaan dit object per object doen. Omdat we enkel maar de vier hoekpunten van elk object hebben moeten er eerst nog bewerkingen uitgevoerd worden. Wat er eerst gebeurt is dat er een circel rond de vier hoekpunten getrokken word zodat je het middelpunt kan krijgen dit doen we met de minEnclosingCircle functie in de cv2 library. Ook deze gaan we weergeven op de image die we op de computer te zien gaan krijgen. Om te weten hoe groot het object juist is kunnen we er een rechthoek rond tekenen. Dit doen we door eerst de booglengte te weten te komen (arcLength) en deze lengtes met elkaar te verbinden en een rechthoek van te laten maken (approxPolyDP) hiervan kunnen we de x,y coördinaten en de breedte en lengte opvragen (boundingRect). Hiermee kunnen we de rechthoek laten tekenen op de image.

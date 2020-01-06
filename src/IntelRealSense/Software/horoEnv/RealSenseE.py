@@ -142,14 +142,12 @@ try:
         #cv2.drawContours(crop_img, contours, contourCnt, (0,255,0), 3)     #all contours
 
         contours = sorted(contours, key = cv2.contourArea, reverse = True)
-        
+    
         u = 0
         teKort = False
         lengteArray = 0
         contourSorted = []
         #print (contourSorted)
-        global stringCoordinaten
-        stringCoordinaten = ""
         for C in contours:
             #print str(u)+":"+str(cv2.contourArea(C))
             if cv2.contourArea(C) > 1000:
@@ -163,7 +161,8 @@ try:
                 break
             u=u+1
         
-                
+        global stringCoordinaten
+        stringCoordinaten = ""   
         global puntenDepth
         global stringRobot
         puntenDepth = [] 
@@ -177,7 +176,6 @@ try:
             peri = cv2.arcLength(c, True)
             approx = cv2.approxPolyDP(c, 0.02 * peri, True)
             x, y, w, h = cv2.boundingRect(approx)
-            #print type(xc)
             #diepte = aligned_depth_frame.get_distance(int(xc),int(yc))
             # if height is enough
             # create rectangle for bounding
