@@ -69,7 +69,7 @@ We hebben een paar vaste variablen die je vaak gaat terug zien komen ivm de topi
     client.connect(MQTT_SERVER, 1883, 60)
     client.loop_forever()
 ```
-2. Hoe we verder te werk gaan is als volgend: de hololens krijgt per frame de middelpunten van elk object dat gedecteerd word. Als de hololens een object aanduid waar de robotarm naar toe moet gaat deze een bericht schrijven op de topic "hololens_send". Dit gaan we detecteren met de on_message functie van mqtt. Het bericht die de hololens stuurt is de actie + de plaats in de list van coordinaten van de objecten. We halen dit uit de lijst met coordinaten en sturen die dan door naar het object in json formaat.
+2. Hoe we verder te werk gaan is als volgend: de hololens krijgt per frame de middelpunten van elk object dat gedecteerd word. Als de hololens een object aanduid waar de robotarm naar toe moet gaat deze een bericht schrijven op de topic "hololens_send". Dit gaan we detecteren met de on_message functie van mqtt. Het bericht die de hololens stuurt is de actie + de plaats in de list van coordinaten van de objecten. We halen dit uit de lijst met coordinaten en sturen die dan door naar de robotarm in json formaat.
 ```Python
     def on_message(client, userdata, msg):
         print(msg.topic+" "+str(msg.payload))

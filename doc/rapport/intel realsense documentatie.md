@@ -49,15 +49,17 @@ Dit hebben we dus niet gebruikt in onze toepassing, we hebben besloten om contou
 
 Voor we kunnen beginnen met programmeren moeten we eerst zorgen dat we de sdk hebben geinstalleerd van de realsense. (https://www.intelrealsense.com/developers/)
 
-Voor we beginnen met onze code moeten we eerst alle libraries importen die we nodig hebben voor het project.
+Voor we beginnen met onze code moeten we eerst alle libraries importen en installeren die we nodig hebben voor het project.
 ```python
     import cv2
     import numpy as np
     import matplotlib.pyplot as plt
     import pyrealsense2 as rs
     import math
-```
 
+    # install cv2 and numpy : pip install opencv-pyhton
+    # install matplotlib : python -m pip install -U matplotlib
+```
 1. We moeten beginnen met een pipeline aan te maken die alle handelingen van de geconnecteerde realsense aparaten gaat bijhouden.
 ```python
     pipeline = rs.pipeline()
@@ -87,7 +89,7 @@ Voor we beginnen met onze code moeten we eerst alle libraries importen die we no
     aspect = width / height
     scale = int(math.ceil(height / expected))
 ```
-5. Nu we de waardes hebben ingesteld die we nodig hebben kunnen we img maken die we willen weergeven in het venster met de grootte dat we willen hebben. Dit doen we met de resize functie die van de array die we gemaakt hebben in stap 3. We gaan de image die we gaan gebruiken voor contour herkenning opslagen in de crop_img variablen
+5. Nu we de waardes hebben ingesteld die we nodig hebben kunnen we img maken die we willen weergeven in het venster met de grootte dat we willen hebben. Dit doen we met de resize functie die van de array die we gemaakt hebben in stap 3. We gaan de image die we gaan gebruiken voor contour herkenning opslagen in de crop_img variable.
 
 ```python
     resized_image = cv2.resize(color, (int(round(expected * aspect)),int( expected)))
@@ -148,7 +150,7 @@ Deze heeft drie parameters: de eerste is de mask die meegeven moet worden welke 
             break
         u=u+1 
 ```
-11. We hebben nu de array met de objecten waar we de coördinaten moeten uithalen. We gaan dit object per object doen. Omdat we enkel maar de vier hoekpunten van elk object hebben moeten er eerst nog bewerkingen uitgevoerd worden. Wat er eerst gebeurt is dat er een circel rond de vier hoekpunten getrokken word zodat je het middelpunt kan krijgen dit doen we met de minEnclosingCircle functie in de cv2 library. Ook deze gaan we weergeven op de image die we op de computer te zien gaan krijgen. Om te weten hoe groot het object juist is, gaan we er eerst een rechthoek rond trekken die geen rekening houd met hoe het object georiënteerd is. Dit doen we door eerst de booglengte te weten te komen (arcLength) en deze lengtes met elkaar te verbinden en een rechthoek van te laten maken (approxPolyDP) hiervan kunnen we de x,y coördinaten en de breedte en lengte opvragen (boundingRect). Nu hebben we de x,y van de linkerboven hoek en de breedte en de hoogte. Dit is de blauwe rechthoek die je ziet. Nu gaan we deze rechthoeken draaien om dichterbij de contour van het echt object te zitten. We gaan eerst een rechthoek maken met minAreaRect, als we dit hebben gaan we met de functie boxPoints en np.int0 de rechthoek draaien om zo dichter bij de omtrek van de rechthoek te komen. Deze rechthoek geven we weer in het rood. 
+11. We hebben nu de array met de objecten waar we de coördinaten moeten uithalen. We gaan dit object per object doen. Omdat we enkel maar de vier hoekpunten van elk object hebben moeten er eerst nog bewerkingen uitgevoerd worden. Wat er eerst gebeurt is dat er een circel rond de vier hoekpunten getrokken word zodat je het middelpunt kan krijgen dit doen we met de minEnclosingCircle functie in de cv2 library. Ook deze gaan we weergeven op de image die we op de computer te zien gaan krijgen. Om te weten hoe groot het object juist is, gaan we er eerst een rechthoek rond trekken die geen rekening houd met hoe het object georiënteerd is. Dit doen we door eerst de booglengte te weten te komen (arcLength) en deze lengtes met elkaar te verbinden en een rechthoek van te laten maken (approxPolyDP) hiervan kunnen we de x,y coördinaten en de breedte en lengte opvragen (boundingRect). Nu hebben we de x,y van de linkerboven hoek en de breedte en de hoogte. Dit is de blauwe rechthoek die je ziet. Nu gaan we deze rechthoeken draaien om dichterbij de contour van het echt object te zitten. We gaan eerst een rechthoek maken met minAreaRect, als we dit hebben gaan we met de functie boxPoints en np.int0 de rechthoek draaien om zo dichter bij de omtrek van de rechthoek te komen. Deze rechthoek geven we weer in het rood.
 ```python
     #rects = []
     for c in contourSorted:
