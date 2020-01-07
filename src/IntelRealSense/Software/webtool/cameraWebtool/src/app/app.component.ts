@@ -118,6 +118,8 @@ export class AppComponent {
 
     document.getElementById("maskDivsContainer").appendChild(node);
 
+    this.addVisibleFieldInElement(this.maskNumber);
+    this.addDeleteFieldInElement(this.maskNumber);
     this.addWidthFieldInElement(this.maskNumber);
     this.addHeightFieldInElement(this.maskNumber);
     this.addXPositionFieldInElement(this.maskNumber);
@@ -125,6 +127,32 @@ export class AppComponent {
     this.addRotationFieldInElement(this.maskNumber);
 
     this.maskNumber += 1;
+  }
+
+  addVisibleFieldInElement(maskId:number){
+    var node = document.createElement("button");
+
+    node.id = "visible" + maskId;
+
+    var nodeStyle = node.style;
+    //node.onclick
+
+    var textnode = document.createTextNode("visible");
+    node.appendChild(textnode);
+    document.getElementById(maskId.toString()).appendChild(node);
+  }
+
+  addDeleteFieldInElement(maskId:number){
+    var node = document.createElement("button");
+
+    node.id = "delete" + maskId;
+
+    var nodeStyle = node.style;
+    
+
+    var textnode = document.createTextNode("delete");
+    node.appendChild(textnode);
+    document.getElementById(maskId.toString()).appendChild(node);
   }
 
   addWidthFieldInElement(maskId:number){
