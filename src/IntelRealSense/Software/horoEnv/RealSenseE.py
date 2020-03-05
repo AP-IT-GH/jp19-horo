@@ -161,12 +161,12 @@ try:
                 break
             u=u+1
         
-        global stringCoordinaten
-        stringCoordinaten = ""   
+        global stringCoordinaten   
         global puntenDepth
         global stringRobot
         puntenDepth = [] 
-        rects = []
+        #rects = []
+        stringCoordinaten = ""
         stringRobot = ""
         for c in contourSorted:
             (xc,yc),radius = cv2.minEnclosingCircle(c)
@@ -180,7 +180,7 @@ try:
             # if height is enough
             # create rectangle for bounding
             rect = (x, y, w, h)
-            rects.append(rect)
+            #rects.append(rect)
             cv2.rectangle(crop_img, (x, y), (x+w, y+h), (0, 0,255), 4);   
 
             rect = cv2.minAreaRect(c)
@@ -188,15 +188,12 @@ try:
             box = np.int0(box)
             cv2.drawContours(crop_img,[box],0,(255,0,0),4)
             
-            x_waarde = (x + (w/2))
-            y_waarde = (y + (h/2))
+            #x_waarde = (x + (w/2))
+            #y_waarde = (y + (h/2))
 
             xcI = int(xc)
             ycI = int(yc)
-
             stringRobot += str(xcI) +","+str(ycI)+";"
-
-            #alle coordinaten sturen naar de hololens
 
             kommaX = ((x + (w/2))*expected)/1000000000*expected
             kommaY = ((y + (h/2))*expected)/1000000000*expected

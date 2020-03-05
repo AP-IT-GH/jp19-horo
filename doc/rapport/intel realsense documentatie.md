@@ -4,7 +4,7 @@ Object detection**
  1. Wat is een intel realsense?
  2. Hoe werkt object detectie?
  3. Waarom object detectie op deze manier?
- 4. Voorbeeld toepassing
+ 4. Uitleg van de code
 
 # Wat is een intel realsense?
 
@@ -42,40 +42,31 @@ Om de positie van het object nauwkeuriger te kunnen bepalen kan men best de rect
    
 # Waarom object detectie op deze manier?
 
-Ik ben begonnen met object detectie te doen met een deep learning algoritme. Bij het standaard project van de intel realsense wordt een klein deep aangeleerd netwerk meegeleverd (coffee table). Het goede aan een deep learn netwerk is dat dit kan uitgevoerd worden in een ongecontroleerde omgeving. Het programma zal namelijk zoeken naar patronen als men de pixels van de photo afgaan. Het nadeel is echter dat men voor elk object dat men wilt detecteren, men dit eerst de computer moet aanleren door een hoop fotos te implementeren (bv mens => 50 foto’s van mensen). Een bijkomend nadeel is dat zoo een algoritme enorm veel processing power (vooral grafisch) vereist aangezien hij eerst de afbeelding moet renderen en dan op elke object van zijn deep geleerd netwerk moet gaan testen( of er een overeenkomstig patroon is). Dit zorgt dus voor een niet real time toepassing.
-
-# Voorbeeld toepassing
-
-**Voorwoord:**
-Voor het menuutje in het begin heb ik gebruik gemaakt van de tkinter library. Wanneer men op een knop drukt zal de integer windowselector veranderen van waarde en zo bepalen welk stuk van de code en welke camera weergegeven wordt. Nadat de camera stream is opgezet zal er dus steeds een loop voor elke frame worden uitgevoerd. Naar gelang welke int is ingesteld wordt er dus een ander algoritme en code op de frame toegepast.
-
-**Deep learning detection** *(slechte optie voor dit project)*:
-In de voorbeeld toepassing heb ik bij het opstarten een menuutje gemaakt (met de tkinter python library). De RGB cam geeft een scherm weer van de RGB camera en deep learning object detection. De Depth cam doet hetzelfde maar dan met de diepte camera. Overlay cam zal de overlay cam gedeeltelijk transparant maken en boven op de RGB cam leggen.
-
-**Contour detection** *(zeer performante optie voor gecontroleerde omgeving)*:
-In het menu vindt men ook een knop die enkel de mask weergeeft en uitvoert. Vervolgens is er ook een voorbeeld dat de contouren op de RGB stream tekent (door middel van de mask). En de laatste knop tekent uiteindelijk een rechthoek en een gekantelde rechthoek rond het object (en logt de x en y coördinaten in de console).
+Ik ben begonnen met object detectie te doen met een deep learning algoritme. Bij het standaard project van de intel realsense wordt een klein deep aangeleerd netwerk meegeleverd (coffee table). Het goede aan een deep learn network is dat dit kan uitgevoerd worden in een ongecontroleerde omgeving. Het programma zal namelijk zoeken naar patronen als men de pixels van de photo afgaan. Het nadeel is echter dat men voor elk object dat men wilt detecteren, men dit eerst de computer moet aanleren door een hoop fotos te implementeren (bv mens => 50 foto’s van mensen). Een bijkomend nadeel is dat zo een algoritme enorm veel processing power (vooral grafisch) vereist aangezien hij eerst de afbeelding moet renderen en dan op elke object van zijn deep geleerd netwerk moet gaan testen (of er een overeenkomstig patroon is). Dit zorgt dus voor een niet real time toepassing.
+Dit hebben we dus niet gebruikt in onze toepassing, we hebben besloten om contour detectie te gebruiken. Dit is een betere en snellere manier om objecten te detecteren.
 
 # Uitleg van de code
 
-Voor we kunnen beginnen met programmeren moeten we eerst zorgen dat we de sdk hebben geinstalleerd van de realsense.
+Voor we kunnen beginnen met programmeren moeten we eerst zorgen dat we de sdk hebben geinstalleerd van de realsense. (https://www.intelrealsense.com/developers/)
 
+Voor we beginnen met onze code moeten we eerst alle libraries importen en installeren die we nodig hebben voor het project.
 ```python
     import cv2
     import numpy as np
     import matplotlib.pyplot as plt
     import pyrealsense2 as rs
     import math
+
+    # install cv2 and numpy : pip install opencv-pyhton
+    # install matplotlib : python -m pip install -U matplotlib
 ```
-Voor we beginnen met onze code moeten we eerst alle libraries importen die we nodig hebben voor het project.
-
-1. We moeten beginnen een pipeline aan te maken die alle handelingen van de geconnecteerde realsense aparaten gaat bijhouden.
-
+1. We moeten beginnen met een pipeline aan te maken die alle handelingen van de geconnecteerde realsense aparaten gaat bijhouden.
 ```python
     pipeline = rs.pipeline()
     pipeline.start()
     profile = pipeline.get_active_profile()
 ```
-2. Als de pipeline gelukt is, kunnen we beginnen met het opvragen van de frames. Als we de frames hebben kunnen hieruit de diepte en color frames gehaald worden.
+2. Als de pipeline gelukt is, kunnen we beginnen met het opvragen van de frames. Als we de frames hebben kunnen hieruit de diepte en color frames gehaald worden. Deze call wacht tot er een nieuwe samenhangende set van frames toegankelijk zijn op een apparaat. Als de diepte of color frames niet zijn aangekomen op tijd zal het programma nog steeds runnen door de continue in de if.
 
 ```python
     frames = pipeline.wait_for_frames()
@@ -84,10 +75,6 @@ Voor we beginnen met onze code moeten we eerst alle libraries importen die we no
     if not depth_frame or not color_frame:
             continue
 ```
-> Deze call wacht tot er een nieuwe samenhangende set van frames toegankelijk zijn op een apparaat. Als de diepte of color frames niet zijn aangekomen op tijd zal het programma nog steeds runnen door de continue in de if.
-
-> We gaan nu eerst verder met de kleuren frames en de contour detectie voor we naar de diepte gaan.
-
 3. We gaan gebruik maken van de numpy bibliotheek om de de data van de kleuren frame bij te houden, hiermee kunnen we laten dan bewerkingen mee gaan doen.
 
 ```python
@@ -102,8 +89,7 @@ Voor we beginnen met onze code moeten we eerst alle libraries importen die we no
     aspect = width / height
     scale = int(math.ceil(height / expected))
 ```
-
-5. Nu we de waardes hebben ingesteld die we nodig hebben kunnen we img maken die we willen weergeven in het venster met de grootte dat we willen hebben. dit doen we met de resize functie die van de array die we gemaakt hebben in stap 3. We gaan de image die we gaan gebruiken voor contour herkenning opslagen in de crop_img variablen
+5. Nu we de waardes hebben ingesteld die we nodig hebben kunnen we img maken die we willen weergeven in het venster met de grootte dat we willen hebben. Dit doen we met de resize functie die van de array die we gemaakt hebben in stap 3. We gaan de image die we gaan gebruiken voor contour herkenning opslagen in de crop_img variable.
 
 ```python
     resized_image = cv2.resize(color, (int(round(expected * aspect)),int( expected)))
@@ -139,15 +125,12 @@ Deze heeft drie parameters: de eerste is de mask die meegeven moet worden welke 
 ```python
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 ```
-
 9. Als we de contouren hebben gedetecteerd gaan we deze nu tekenen op de image die we gaan weergeven op het einde zodat we een beeld hebben van wat de camera doet.
 
 ```python
     cv2.drawContours(crop_img, contours, -1, (0,255,0), 3)  
 ```
-
-10. Het is op de hololens momenteel nog niet mogelijk om meer dan 4 objecten te verwerken. Op de Realsense gaan we dus een selectie maken van enkel de vier grootste objecten. Dit doen we met de functie sorted die in python zit en we kunnen in de cv2 de opervlakte van de area opvragen per object, hierop gaan we dus ook sorteren. Als we de gesorteerde aray hebben gaan we er de eerste vier uitpakken. Als extra dat we hierop gedaan hebben is enkel met de objecten verder gaan die groot genoeg zijn. Dit hebben we gedaan met ene simpele for loop.
-
+10. Het is op de hololens momenteel nog niet mogelijk om meer dan 4 objecten te verwerken. Op de Realsense gaan we dus een selectie maken van enkel de vier grootste objecten. Dit doen we met de functie sorted die in python zit en we kunnen in de cv2 de opervlakte van de area opvragen per object, hierop gaan we dus ook sorteren. Als we de gesorteerde aray hebben gaan we er de eerste vier uitpakken. Wat we hier als extra op gedaan hebben is enkel met de objecten verder gaan die groot genoeg zijn. Dit hebben we gedaan met een simpele for loop.
 ```python
     contours = sorted(contours, key = cv2.contourArea, reverse = True)
 
@@ -167,5 +150,32 @@ Deze heeft drie parameters: de eerste is de mask die meegeven moet worden welke 
             break
         u=u+1 
 ```
+11. We hebben nu de array met de objecten waar we de coördinaten moeten uithalen. We gaan dit object per object doen. Omdat we enkel maar de vier hoekpunten van elk object hebben moeten er eerst nog bewerkingen uitgevoerd worden. Wat er eerst gebeurt is dat er een circel rond de vier hoekpunten getrokken word zodat je het middelpunt kan krijgen dit doen we met de minEnclosingCircle functie in de cv2 library. Ook deze gaan we weergeven op de image die we op de computer te zien gaan krijgen. Om te weten hoe groot het object juist is, gaan we er eerst een rechthoek rond trekken die geen rekening houd met hoe het object georiënteerd is. Dit doen we door eerst de booglengte te weten te komen (arcLength) en deze lengtes met elkaar te verbinden en een rechthoek van te laten maken (approxPolyDP) hiervan kunnen we de x,y coördinaten en de breedte en lengte opvragen (boundingRect). Nu hebben we de x,y van de linkerboven hoek en de breedte en de hoogte. Dit is de blauwe rechthoek die je ziet. Nu gaan we deze rechthoeken draaien om dichterbij de contour van het echt object te zitten. We gaan eerst een rechthoek maken met minAreaRect, als we dit hebben gaan we met de functie boxPoints en np.int0 de rechthoek draaien om zo dichter bij de omtrek van de rechthoek te komen. Deze rechthoek geven we weer in het rood.
+```python
+    #rects = []
+    for c in contourSorted:
+        (xc,yc),radius = cv2.minEnclosingCircle(c)
+        center = (int(xc),int(yc))
+        radius = int(radius)
+        cv2.circle(crop_img,center,radius,(0,255,0),2)
+        peri = cv2.arcLength(c, True)
+        approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+        x, y, w, h = cv2.boundingRect(approx)
+        #diepte = aligned_depth_frame.get_distance(int(xc),int(yc))
+        # if height is enough
+        # create rectangle for bounding
+        rect = (x, y, w, h)
+        #rects.append(rect)
+        cv2.rectangle(crop_img, (x, y), (x+w, y+h), (0, 0,255), 4);   
 
-11. We hebben nu de array met de objecten waar we de coördinaten moeten uithalen. We gaan dit object per object doen. Omdat we enkel maar de vier hoekpunten van elk object hebben moeten er eerst nog bewerkingen uitgevoerd worden. Wat er eerst gebeurt is dat er een circel rond de vier hoekpunten getrokken word zodat je het middelpunt kan krijgen dit doen we met de minEnclosingCircle functie in de cv2 library. Ook deze gaan we weergeven op de image die we op de computer te zien gaan krijgen. Om te weten hoe groot het object juist is kunnen we er een rechthoek rond tekenen. Dit doen we door eerst de booglengte te weten te komen (arcLength) en deze lengtes met elkaar te verbinden en een rechthoek van te laten maken (approxPolyDP) hiervan kunnen we de x,y coördinaten en de breedte en lengte opvragen (boundingRect). Hiermee kunnen we de rechthoek laten tekenen op de image.
+        rect = cv2.minAreaRect(c)
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+        cv2.drawContours(crop_img,[box],0,(255,0,0),4)
+```
+12. Nu we alles op de crop_img hebben gezet en de objecten hebben gedetecteerd is het tijd om ze weer te geven. Dit doen we met de volgende code.
+```python
+    cv2.namedWindow('RealSense5', cv2.WINDOW_NORMAL)
+    cv2.resizeWindow('RealSense5',640,480)
+    cv2.imshow('RealSense5',cv2.cvtColor(crop_img, cv2.COLOR_BGR2RGB))
+```
