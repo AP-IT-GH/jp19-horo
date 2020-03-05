@@ -40,8 +40,8 @@ def mqtt():
     
 try:
     #thread.start_new_thread(timer,())
-    thread.start_new_thread(server,())
-    thread.start_new_thread(mqtt,())
+    #thread.start_new_thread(server,())
+    #thread.start_new_thread(mqtt,())
 
     MQTT_SERVER = "192.168.0.69"
     MQTT_ROBOT = "robotarm"
@@ -214,11 +214,11 @@ try:
             
         #https://stackoverflow.com/questions/44902550/stream-opencv-frame-to-html-in-python
 
-        Webserver.setFoto(crop_img)
+        #Webserver.setFoto(crop_img)
         
-        mqttserver.setCoordinatenList(stringRobot)
+        #mqttserver.setCoordinatenList(stringRobot)
         print (stringCoordinaten)
-        publish.single(MQTT_HOLO,payload = stringCoordinaten,hostname = MQTT_SERVER)
+        #publish.single(MQTT_HOLO,payload = stringCoordinaten,hostname = MQTT_SERVER)
         cv2.namedWindow('RealSense5', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('RealSense5',640,480)
         cv2.imshow('RealSense5',cv2.cvtColor(crop_img, cv2.COLOR_BGR2RGB))
